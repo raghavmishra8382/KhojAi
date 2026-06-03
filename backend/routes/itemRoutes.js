@@ -33,7 +33,7 @@ const upload = multer({ storage: storage });
 // @access  Private
 router.post('/', auth, upload.single('image'), async (req, res) => {
   try {
-    const { title, description, type, category, location, date } = req.body;
+    const { title, description, type, category, itemType, brand, color, location, date } = req.body;
 
     let imageUrl = '';
     if (req.file) {
@@ -45,6 +45,9 @@ router.post('/', auth, upload.single('image'), async (req, res) => {
       description,
       type,
       category,
+      itemType,
+      brand,
+      color,
       location,
       image: imageUrl,
       date,
@@ -94,7 +97,7 @@ router.post('/', auth, upload.single('image'), async (req, res) => {
 // @access  Private
 router.post('/quick-found', auth, upload.single('image'), async (req, res) => {
   try {
-    const { title, description, category, location, date, lostItemId } = req.body;
+    const { title, description, category, itemType, brand, color, location, date, lostItemId } = req.body;
 
     let imageUrl = '';
     if (req.file) {
@@ -106,10 +109,14 @@ router.post('/quick-found', auth, upload.single('image'), async (req, res) => {
       description,
       type: 'found',
       category,
+      itemType,
+      brand,
+      color,
       location,
       image: imageUrl,
       date,
       user: req.user.id,
+      lostItemId: lostItemId || null,
     });
 
     const embedding = await generateEmbedding(newItem);
@@ -181,6 +188,28 @@ router.get('/:id/matches', async (req, res) => {
   } catch (err) {
     console.error(err.message);
     if (err.kind === 'ObjectId') return res.status(404).json({ message: 'Item not found' });
+    res.status(500).send('Server Error');
+  }
+});
+
+// @route   GET /api/items/my/matches
+// @desc    Get all AI matches for the current user's active lost items
+// @access  Private
+router.get('/my/matches', auth, async (req, res) => {
+  try {
+    const userLostItems = await Item.find({ user: req.user.id, type: 'lost', status: 'open' });
+    let allMatches = [];
+    
+    for (const item of userLostItems) {
+      const matches = await findMatches(item);
+      if (matches && matches.length > 0) {
+        allMatches = [...allMatches, ...matches];
+      }
+    }
+    
+    res.json(allMatches);
+  } catch (err) {
+    console.error(err.message);
     res.status(500).send('Server Error');
   }
 });

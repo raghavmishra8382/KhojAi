@@ -19,6 +19,9 @@ const extractItemDetailsFromImage = async (buffer, mimeType) => {
       {
         "title": "A short, descriptive title (e.g. Black Leather Wallet)",
         "category": "Must be exactly one of: 'Electronics', 'Wallets & Cards', 'Bags', 'Keys', or 'Other'",
+        "itemType": "A specific type like 'Earbuds', 'Laptop', 'Phone', 'Wallet', 'Backpack', etc.",
+        "brand": "The brand name if visible or obvious (e.g. 'Apple', 'HP'), otherwise empty string",
+        "color": "The primary color of the item",
         "description": "A detailed visual description including colors, branding, distinguishing marks, etc."
       }
       Do not include any markdown formatting like \`\`\`json or \`\`\`. Just return the raw JSON object.

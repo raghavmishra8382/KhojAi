@@ -17,6 +17,7 @@ export default function DashboardPage() {
   const [submittedMessages, setSubmittedMessages] = useState([]);
   const [recentMatches, setRecentMatches] = useState([]); // Can be populated from API later
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     if (!token) {
@@ -24,18 +25,30 @@ export default function DashboardPage() {
       return;
     }
 
-    const fetchData = async () => {
+    const fetchDashboardData = async () => {
       try {
         setLoading(true);
-        // Fetch My Items
-        const itemsRes = await fetch('http://localhost:5000/api/items');
+        const [itemsRes, sentClaimsRes, receivedClaimsRes, sentMsgsRes, receivedMsgsRes, matchesRes] = await Promise.all([
+          fetch('http://localhost:5000/api/items'),
+          fetch('http://localhost:5000/api/claims/submitted', { headers: { 'Authorization': `Bearer ${token}` } }),
+          fetch('http://localhost:5000/api/claims/received', { headers: { 'Authorization': `Bearer ${token}` } }),
+          fetch('http://localhost:5000/api/contact/submitted', { headers: { 'Authorization': `Bearer ${token}` } }),
+          fetch('http://localhost:5000/api/contact/received', { headers: { 'Authorization': `Bearer ${token}` } }),
+          fetch('http://localhost:5000/api/items/my/matches', { headers: { 'Authorization': `Bearer ${token}` } })
+        ]);
+
         if (itemsRes.ok) {
           const allItems = await itemsRes.json();
-          // Filter to just my items (or just use public items for now as mock dashboard)
-          // Wait, the API returns all items. Let's just filter by user ID.
-          // Since we don't have the user ID easily accessible in items without populating properly, 
-          // we will just show recent items in the 'items' tab for now.
-          setItems(allItems);
+          // Filter items by current user
+          const userId = user?.id || user?._id;
+          if (userId) {
+            setItems(allItems.filter(item => {
+              const itemUserId = typeof item.user === 'object' ? item.user._id : item.user;
+              return itemUserId === userId;
+            }));
+          } else {
+            setItems(allItems);
+          }
         }
 
         // Fetch Received Claims
@@ -68,7 +81,7 @@ export default function DashboardPage() {
         setLoading(false);
       }
     };
-    fetchData();
+    fetchDashboardData();
   }, [token, navigate]);
 
   const handleUpdateClaimStatus = async (claimId, status) => {
@@ -88,11 +101,13 @@ export default function DashboardPage() {
           headers: { 'Authorization': `Bearer ${token}` }
         });
         if (recRes.ok) setReceivedClaims(await recRes.json());
+        setError(null);
       } else {
-        alert('Failed to update claim status');
+        setError('Failed to update claim status');
       }
     } catch (err) {
       console.error(err);
+      setError('Error connecting to server');
     }
   };
 
@@ -112,15 +127,17 @@ export default function DashboardPage() {
           headers: { 'Authorization': `Bearer ${token}` }
         });
         if (recRes.ok) setReceivedMessages(await recRes.json());
+        setError(null);
       } else {
-        alert('Failed to update message status');
+        setError('Failed to update message status');
       }
     } catch (err) {
       console.error(err);
+      setError('Error connecting to server');
     }
   };
 
-  const lostItems = items.filter(item => item.type === 'lost').map(item => ({...item, id: item._id, status: item.status === 'resolved' ? 'Recovered' : 'Active'})).slice(0, 3);
+  const lostItems = items.filter(item => item.type === 'lost').map(item => ({...item, id: item._id, status: item.status === 'resolved' ? 'Resolved' : 'Active'})).slice(0, 3);
   const foundItems = items.filter(item => item.type === 'found').map(item => ({...item, id: item._id, status: item.status === 'resolved' ? 'Claimed' : 'Active'})).slice(0, 3);
 
   const ItemCard = ({ item }) => {
@@ -129,7 +146,7 @@ export default function DashboardPage() {
         case 'Active': return 'bg-white/90 text-[#0052FF] border border-blue-100 shadow-[0_0_15px_rgba(0,82,255,0.2)]';
         case 'Matched': return 'bg-white/90 text-[#00C853] border border-green-100 shadow-[0_0_15px_rgba(0,200,83,0.2)]';
         case 'Claimed': return 'bg-white/90 text-[#8B5CF6] border border-purple-100 shadow-[0_0_15px_rgba(139,92,246,0.2)]';
-        case 'Recovered': return 'bg-white/90 text-amber-500 border border-amber-100 shadow-[0_0_15px_rgba(245,158,11,0.2)]';
+        case 'Resolved': return 'bg-white/90 text-amber-500 border border-amber-100 shadow-[0_0_15px_rgba(245,158,11,0.2)]';
         default: return 'bg-white/90 text-gray-600 border border-gray-200';
       }
     };
@@ -170,16 +187,16 @@ export default function DashboardPage() {
         <div className="flex flex-wrap gap-4 md:gap-6 mt-6">
           <div className="bg-white px-5 py-4 rounded-2xl shadow-sm border border-gray-100 flex items-center gap-4 flex-1 min-w-[200px] hover:-translate-y-1 transition-transform duration-300">
             <div className="bg-blue-50 p-3 rounded-xl text-blue-600 shadow-inner"><AlertCircle size={24}/></div>
-            <div><p className="text-2xl font-extrabold text-gray-900">{items.length}</p><p className="text-xs text-gray-500 font-bold uppercase tracking-wider">Active Reports</p></div>
+            <div><p className="text-2xl font-extrabold text-gray-900">{items.filter(item => item.status !== 'resolved').length}</p><p className="text-xs text-gray-500 font-bold uppercase tracking-wider">Active Reports</p></div>
           </div>
           <div className="bg-white px-5 py-4 rounded-2xl shadow-sm border border-gray-100 flex items-center gap-4 flex-1 min-w-[200px] hover:-translate-y-1 transition-transform duration-300 relative overflow-hidden group">
             <div className="absolute top-0 right-0 w-24 h-24 bg-cyan-100 rounded-full blur-2xl opacity-50 -translate-y-1/2 translate-x-1/2 group-hover:scale-150 transition-transform duration-700"></div>
             <div className="bg-gradient-to-br from-cyan-100 to-teal-100 p-3 rounded-xl text-teal-700 shadow-inner"><Sparkles size={24}/></div>
-            <div className="relative z-10"><p className="text-2xl font-extrabold text-gray-900">4</p><p className="text-xs text-gray-500 font-bold uppercase tracking-wider">AI Matches Found</p></div>
+            <div className="relative z-10"><p className="text-2xl font-extrabold text-gray-900">{recentMatches.length}</p><p className="text-xs text-gray-500 font-bold uppercase tracking-wider">AI Matches Found</p></div>
           </div>
           <div className="bg-white px-5 py-4 rounded-2xl shadow-sm border border-gray-100 flex items-center gap-4 flex-1 min-w-[200px] hover:-translate-y-1 transition-transform duration-300">
             <div className="bg-purple-50 p-3 rounded-xl text-purple-600 shadow-inner"><ShieldCheck size={24}/></div>
-            <div><p className="text-2xl font-extrabold text-gray-900">{receivedClaims.length}</p><p className="text-xs text-gray-500 font-bold uppercase tracking-wider">Total Claims</p></div>
+            <div><p className="text-2xl font-extrabold text-gray-900">{items.filter(item => item.status === 'resolved').length}</p><p className="text-xs text-gray-500 font-bold uppercase tracking-wider">Resolved Items</p></div>
           </div>
         </div>
       </div>
@@ -208,6 +225,13 @@ export default function DashboardPage() {
           </button>
         ))}
       </div>
+
+      {error && (
+        <div className="bg-red-50 border border-red-200 text-red-600 px-4 py-3 rounded-xl text-sm flex items-center gap-2 mb-6">
+          <AlertCircle size={16} />
+          {error}
+        </div>
+      )}
 
       {loading ? (
         <div className="text-center py-20 text-gray-500">Loading your data...</div>
@@ -249,19 +273,19 @@ export default function DashboardPage() {
                     {recentMatches.map((m, i) => (
                       <motion.div key={i} initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: i * 0.1 }} className="bg-white p-4 rounded-3xl border border-gray-100 shadow-sm flex items-center gap-4 hover:shadow-[0_10px_30px_rgba(6,182,212,0.15)] hover:border-cyan-100 transition-all duration-300 cursor-pointer group/match">
                         <div className="flex -space-x-3">
-                          <div className="w-12 h-12 rounded-full border-2 border-white bg-slate-200 flex items-center justify-center text-xs text-slate-500 shadow-sm z-10 overflow-hidden"><img src="https://images.unsplash.com/photo-1590658268037-6bf12165a8df?w=100&h=100&fit=crop" className="w-full h-full object-cover" /></div>
-                          <div className="w-12 h-12 rounded-full border-2 border-white bg-slate-300 flex items-center justify-center text-xs text-slate-500 shadow-sm z-0 overflow-hidden"><img src="https://images.unsplash.com/photo-1590658268037-6bf12165a8df?w=100&h=100&fit=crop" className="w-full h-full object-cover" /></div>
+                          <div className="w-12 h-12 rounded-full border-2 border-white bg-slate-200 flex items-center justify-center text-xs text-slate-500 shadow-sm z-10 overflow-hidden"><img src={m.itemDetails?.image || "https://via.placeholder.com/100?text=No+Image"} className="w-full h-full object-cover" /></div>
+                          <div className="w-12 h-12 rounded-full border-2 border-white bg-cyan-100 flex items-center justify-center text-xs text-cyan-600 font-bold shadow-sm z-0 overflow-hidden text-[10px] text-center">AI<br/>Match</div>
                         </div>
-                        <div className="flex-grow">
-                          <p className="font-bold text-gray-900 text-sm group-hover/match:text-cyan-600 transition-colors">{m.title}</p>
-                          <p className="text-xs text-gray-500">{m.time}</p>
+                        <div className="flex-grow min-w-0">
+                          <p className="font-bold text-gray-900 text-sm group-hover/match:text-cyan-600 transition-colors truncate">{m.itemDetails?.title}</p>
+                          <p className="text-xs text-gray-500">{new Date(m.itemDetails?.createdAt).toLocaleDateString()}</p>
                         </div>
                         <div className="relative w-12 h-12 flex items-center justify-center shrink-0">
                           <svg className="w-full h-full transform -rotate-90" viewBox="0 0 36 36">
                             <path className="text-gray-100" strokeWidth="3" stroke="currentColor" fill="none" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
-                            <path className="text-cyan-500" strokeWidth="3" strokeDasharray={`${m.conf}, 100`} stroke="currentColor" fill="none" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                            <path className="text-cyan-500" strokeWidth="3" strokeDasharray={`${m.similarityPercentage || 0}, 100`} stroke="currentColor" fill="none" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
                           </svg>
-                          <span className="absolute text-[10px] font-extrabold text-cyan-600">{m.conf}%</span>
+                          <span className="absolute text-[10px] font-extrabold text-cyan-600">{m.similarityPercentage}%</span>
                         </div>
                       </motion.div>
                     ))}

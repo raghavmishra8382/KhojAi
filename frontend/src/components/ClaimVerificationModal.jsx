@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, Send, Image as ImageIcon, CheckCircle, Loader2, Info } from 'lucide-react';
+import { X, Send, Image as ImageIcon, CheckCircle, Loader2, Info, AlertCircle } from 'lucide-react';
 import { useAppContext } from '../context/AppContext';
 
 export default function ClaimVerificationModal({ isOpen, onClose, foundItem, lostItem }) {
@@ -11,6 +11,7 @@ export default function ClaimVerificationModal({ isOpen, onClose, foundItem, los
   const [proofImagePreview, setProofImagePreview] = useState(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+  const [error, setError] = useState(null);
 
   if (!foundItem || !lostItem) return null;
 
@@ -28,6 +29,7 @@ export default function ClaimVerificationModal({ isOpen, onClose, foundItem, los
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setError(null);
     if (!identifyingDetail) return;
     
     setIsSubmitting(true);
@@ -51,12 +53,12 @@ export default function ClaimVerificationModal({ isOpen, onClose, foundItem, los
       if (res.ok) {
         setSubmitted(true);
       } else {
-        const error = await res.json();
-        alert('Failed to submit claim: ' + (error.message || 'Unknown error'));
+        const errorData = await res.json();
+        setError('Failed to submit claim: ' + (errorData.message || 'Unknown error'));
       }
     } catch (err) {
       console.error(err);
-      alert('Error submitting claim');
+      setError('Error submitting claim');
     } finally {
       setIsSubmitting(false);
     }
@@ -121,6 +123,13 @@ export default function ClaimVerificationModal({ isOpen, onClose, foundItem, los
                     <strong>Secure Verification Process:</strong> To protect everyone's privacy, your contact information will only be shared with the finder <strong>after</strong> they review and approve your claim.
                   </p>
                 </div>
+
+                {error && (
+                  <div className="bg-red-50 border border-red-200 text-red-600 px-4 py-3 rounded-xl text-sm flex items-center gap-2 mb-6">
+                    <AlertCircle size={16} />
+                    {error}
+                  </div>
+                )}
 
                 <div className="space-y-5">
                   <div>

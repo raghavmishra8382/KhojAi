@@ -1,17 +1,19 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, Send, CheckCircle, Loader2, ShieldCheck } from 'lucide-react';
+import { X, Send, CheckCircle, Loader2, ShieldCheck, AlertCircle } from 'lucide-react';
 
 export default function ContactOwnerModal({ isOpen, onClose, item }) {
   const token = localStorage.getItem('token');
   const [message, setMessage] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+  const [error, setError] = useState(null);
 
   if (!item) return null;
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setError(null);
     if (!message) return;
     
     setIsSubmitting(true);
@@ -32,12 +34,12 @@ export default function ContactOwnerModal({ isOpen, onClose, item }) {
       if (res.ok) {
         setSubmitted(true);
       } else {
-        const error = await res.json();
-        alert('Failed to send message: ' + (error.message || 'Unknown error'));
+        const errorData = await res.json();
+        setError('Failed to send message: ' + (errorData.message || 'Unknown error'));
       }
     } catch (err) {
       console.error(err);
-      alert('Error connecting to server');
+      setError('Error connecting to server');
     } finally {
       setIsSubmitting(false);
     }
@@ -101,6 +103,13 @@ export default function ContactOwnerModal({ isOpen, onClose, item }) {
                   <p className="text-sm text-gray-600">
                     Send a private message to the owner of <span className="font-semibold text-gray-900">"{item.title}"</span>. Your contact information is kept private.
                   </p>
+
+                  {error && (
+                    <div className="bg-red-50 border border-red-200 text-red-600 px-4 py-3 rounded-xl text-sm flex items-center gap-2 mb-2">
+                      <AlertCircle size={16} />
+                      {error}
+                    </div>
+                  )}
 
                   <div>
                     <label className="block text-sm font-semibold text-gray-700 mb-2">

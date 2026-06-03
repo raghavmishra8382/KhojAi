@@ -9,6 +9,7 @@ export default function LoginPage() {
     email: '',
     password: ''
   });
+  const [error, setError] = useState(null);
   const { login } = useAppContext();
   const navigate = useNavigate();
   const location = useLocation();
@@ -26,6 +27,7 @@ export default function LoginPage() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setError(null);
     try {
       const response = await fetch('http://localhost:5000/api/auth/login', {
         method: 'POST',
@@ -41,11 +43,11 @@ export default function LoginPage() {
         login(data.user);
         navigate(from);
       } else {
-        alert(data.message);
+        setError(data.message);
       }
     } catch (err) {
       console.error(err);
-      alert('Error connecting to server');
+      setError('Error connecting to server');
     }
   };
 
@@ -75,6 +77,17 @@ export default function LoginPage() {
                   <p className="text-sm text-blue-700 font-medium">{toastMessage}</p>
                 </div>
               </div>
+            </motion.div>
+          )}
+
+          {error && (
+            <motion.div 
+              initial={{ opacity: 0, y: -10, height: 0 }} 
+              animate={{ opacity: 1, y: 0, height: 'auto' }} 
+              className="bg-red-50 border border-red-200 text-red-600 px-4 py-3 rounded-xl text-sm flex items-center gap-2 mb-6"
+            >
+              <AlertCircle size={16} />
+              {error}
             </motion.div>
           )}
         </AnimatePresence>

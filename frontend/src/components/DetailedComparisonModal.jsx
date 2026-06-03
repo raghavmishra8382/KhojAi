@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, CheckCircle, Info, MapPin, Calendar, Check } from 'lucide-react';
+import { X, CheckCircle, Info, MapPin, Calendar, Check, MessageCircle } from 'lucide-react';
 import ClaimVerificationModal from './ClaimVerificationModal';
+import ContactOwnerModal from './ContactOwnerModal';
 
 export default function DetailedComparisonModal({ isOpen, onClose, lostItem, foundItem }) {
   const [isClaimModalOpen, setIsClaimModalOpen] = useState(false);
+  const [isContactModalOpen, setIsContactModalOpen] = useState(false);
 
   if (!lostItem || !foundItem) return null;
 
@@ -123,6 +125,12 @@ export default function DetailedComparisonModal({ isOpen, onClose, lostItem, fou
                 Cancel
               </button>
               <button 
+                onClick={() => setIsContactModalOpen(true)}
+                className="w-full sm:w-auto px-6 py-2.5 rounded-xl font-semibold text-gray-700 bg-white border-2 border-gray-200 hover:border-gray-300 hover:bg-gray-50 transition-colors flex items-center justify-center gap-2 cursor-pointer"
+              >
+                <MessageCircle size={18} /> Contact Finder
+              </button>
+              <button 
                 onClick={() => setIsClaimModalOpen(true)}
                 className="w-full sm:w-auto flex items-center justify-center gap-2 bg-gray-900 text-white px-8 py-2.5 rounded-xl font-semibold hover:bg-gray-800 transition-colors shadow-sm cursor-pointer"
               >
@@ -139,6 +147,12 @@ export default function DetailedComparisonModal({ isOpen, onClose, lostItem, fou
       onClose={() => setIsClaimModalOpen(false)}
       foundItem={foundItem}
       lostItem={lostItem}
+    />
+    
+    <ContactOwnerModal 
+      isOpen={isContactModalOpen}
+      onClose={() => setIsContactModalOpen(false)}
+      item={foundItem}
     />
     </>
   );

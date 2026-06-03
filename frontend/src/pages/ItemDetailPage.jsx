@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { MapPin, Calendar, User, ArrowLeft, ShieldCheck, CheckCircle, Trash2, Sparkles, Activity } from 'lucide-react';
+import { MapPin, Calendar, User, ArrowLeft, ShieldCheck, CheckCircle, Trash2, Sparkles, Activity, AlertCircle } from 'lucide-react';
 import QuickFoundModal from '../components/QuickFoundModal';
 import ContactOwnerModal from '../components/ContactOwnerModal';
 import ClaimVerificationModal from '../components/ClaimVerificationModal';
@@ -23,6 +23,8 @@ export default function ItemDetailPage() {
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
   const [showToast, setShowToast] = useState(false);
+  const [error, setError] = useState(null);
+  const [hasReported, setHasReported] = useState(false);
 
   React.useEffect(() => {
     const fetchItem = async () => {
@@ -35,7 +37,7 @@ export default function ItemDetailPage() {
             id: data._id,
             itemType: data.type.charAt(0).toUpperCase() + data.type.slice(1),
             dbStatus: data.status,
-            displayStatus: data.status === 'resolved' ? (data.type === 'lost' ? 'Recovered' : 'Claimed') : 'Active',
+            displayStatus: data.status === 'resolved' ? (data.type === 'lost' ? 'Resolved' : 'Claimed') : 'Active',
             contact: {
               name: data.user?.name || 'Anonymous',
               email: data.user?.email || 'N/A',
@@ -50,7 +52,26 @@ export default function ItemDetailPage() {
       }
     };
     fetchItem();
-  }, [id]);
+
+    const fetchReportStatus = async () => {
+      if (user && token) {
+        try {
+          const res = await fetch(`http://localhost:5000/api/items`);
+          const data = await res.json();
+          const userId = user.id || user._id;
+          const reported = data.some(i => 
+            i.type === 'found' && 
+            i.lostItemId === id && 
+            (i.user === userId || (i.user && i.user._id === userId))
+          );
+          setHasReported(reported);
+        } catch (e) {
+          console.error('Error checking report status', e);
+        }
+      }
+    };
+    fetchReportStatus();
+  }, [id, user, token]);
 
   if (loading) return <div className="text-center p-20">Loading...</div>;
   if (!item) return <div className="text-center p-20">Item not found</div>;
@@ -68,13 +89,15 @@ export default function ItemDetailPage() {
         setItem({ 
           ...item, 
           dbStatus: 'resolved',
-          displayStatus: item.itemType === 'Lost' ? 'Recovered' : 'Claimed'
+          displayStatus: item.itemType === 'Lost' ? 'Resolved' : 'Claimed'
         });
+        setError(null);
       } else {
-        alert('Failed to update status.');
+        setError('Failed to update status.');
       }
     } catch (err) {
       console.error(err);
+      setError('Error connecting to server');
     }
   };
 
@@ -88,15 +111,17 @@ export default function ItemDetailPage() {
       if (res.ok) {
         setIsDeleteModalOpen(false);
         setShowToast(true);
+        setError(null);
         setTimeout(() => {
           navigate('/dashboard');
         }, 2000);
       } else {
-        alert('Failed to delete post.');
+        setError('Failed to delete post.');
         setIsDeleting(false);
       }
     } catch (err) {
       console.error(err);
+      setError('Error connecting to server');
       setIsDeleting(false);
     }
   };
@@ -108,6 +133,13 @@ export default function ItemDetailPage() {
           <ArrowLeft size={20} />
           Back to Results
         </button>
+
+        {error && (
+          <div className="bg-red-50 border border-red-200 text-red-600 px-4 py-3 rounded-xl text-sm flex items-center gap-2 mb-6">
+            <AlertCircle size={16} />
+            {error}
+          </div>
+        )}
 
         <div className="bg-white/80 backdrop-blur-xl rounded-[2rem] shadow-xl border border-white/40 overflow-hidden mb-8">
           <div className="flex flex-col md:flex-row p-4 md:p-6 gap-6 md:gap-10">
@@ -226,7 +258,7 @@ export default function ItemDetailPage() {
                       onClick={handleMarkResolved}
                       className="flex-1 py-4 px-6 rounded-2xl font-bold text-green-700 bg-green-50 border border-green-200 hover:bg-green-100 shadow-sm cursor-pointer hover:-translate-y-1 transition-all duration-300 flex justify-center items-center gap-2"
                     >
-                      <CheckCircle size={18} /> {item.itemType === 'Lost' ? 'Mark as Recovered' : 'Mark as Claimed'}
+                      <CheckCircle size={18} /> {item.itemType === 'Lost' ? 'Mark as Resolved' : 'Mark as Claimed'}
                     </button>
                     
                     <div className="w-full mt-2 border-t border-slate-100 pt-6">
@@ -242,12 +274,18 @@ export default function ItemDetailPage() {
                   // Non-Owner Controls
                   <>
                     {item.itemType === 'Lost' ? (
-                      <button 
-                        onClick={() => setIsQuickFoundOpen(true)}
-                        className="flex-[2] py-4 px-6 rounded-2xl font-bold text-white bg-gradient-to-r from-blue-600 to-cyan-500 shadow-lg hover:shadow-xl hover:-translate-y-1 cursor-pointer transition-all duration-300 flex items-center justify-center text-lg gap-2"
-                      >
-                        <Sparkles size={20}/> I Found This Item
-                      </button>
+                      hasReported ? (
+                        <div className="flex-[2] py-4 px-6 rounded-2xl font-bold text-slate-500 bg-slate-100 border border-slate-200 flex items-center justify-center text-lg gap-2 cursor-not-allowed">
+                          <CheckCircle size={20}/> You Reported Finding This
+                        </div>
+                      ) : (
+                        <button 
+                          onClick={() => setIsQuickFoundOpen(true)}
+                          className="flex-[2] py-4 px-6 rounded-2xl font-bold text-white bg-gradient-to-r from-blue-600 to-cyan-500 shadow-lg hover:shadow-xl hover:-translate-y-1 cursor-pointer transition-all duration-300 flex items-center justify-center text-lg gap-2"
+                        >
+                          <Sparkles size={20}/> I Found This Item
+                        </button>
+                      )
                     ) : (
                       <button 
                         onClick={() => setIsClaimOpen(true)}
@@ -276,6 +314,7 @@ export default function ItemDetailPage() {
         isOpen={isQuickFoundOpen} 
         onClose={() => setIsQuickFoundOpen(false)} 
         lostItem={item} 
+        onSuccess={() => setHasReported(true)}
       />
       
       <ContactOwnerModal 

@@ -9,7 +9,7 @@ const genAI = new GoogleGenerativeAI(apiKey || 'missing_key');
 
 async function generateEmbedding(item) {
   // Combine fields into a single text string
-  const textToEmbed = `${item.title || ''} ${item.description || ''} ${item.category || ''} ${item.location || ''}`.trim();
+  const textToEmbed = `${item.title || ''} ${item.description || ''} ${item.category || ''} ${item.itemType || ''} ${item.brand || ''} ${item.color || ''} ${item.location || ''}`.trim();
   
   if (!textToEmbed) {
     return [];

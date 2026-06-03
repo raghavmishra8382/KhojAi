@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, Send, MapPin, CheckCircle, Loader2, Image as ImageIcon } from 'lucide-react';
+import { X, Send, MapPin, CheckCircle, Loader2, Image as ImageIcon, AlertCircle } from 'lucide-react';
 
-export default function QuickFoundModal({ isOpen, onClose, lostItem }) {
+export default function QuickFoundModal({ isOpen, onClose, lostItem, onSuccess }) {
   const token = localStorage.getItem('token');
   const [location, setLocation] = useState('');
   const [date, setDate] = useState('');
@@ -11,6 +11,7 @@ export default function QuickFoundModal({ isOpen, onClose, lostItem }) {
   const [imagePreview, setImagePreview] = useState(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+  const [error, setError] = useState(null);
 
   if (!lostItem) return null;
 
@@ -28,7 +29,11 @@ export default function QuickFoundModal({ isOpen, onClose, lostItem }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!location || !date) return;
+    setError(null);
+    if (!location || !date || !imageFile) {
+      setError('Please provide a location, date, and upload an image.');
+      return;
+    }
     
     setIsSubmitting(true);
     
@@ -36,11 +41,14 @@ export default function QuickFoundModal({ isOpen, onClose, lostItem }) {
       const formData = new FormData();
       formData.append('title', lostItem.title); // Inherit from lost post
       formData.append('category', lostItem.category); // Inherit from lost post
+      if (lostItem.itemType) formData.append('itemType', lostItem.itemType);
+      if (lostItem.brand) formData.append('brand', lostItem.brand);
+      if (lostItem.color) formData.append('color', lostItem.color);
       formData.append('lostItemId', lostItem.id || lostItem._id);
       formData.append('location', location);
       formData.append('date', date);
       if (details) formData.append('description', details);
-      if (imageFile) formData.append('image', imageFile);
+      formData.append('image', imageFile);
 
       const res = await fetch('http://localhost:5000/api/items/quick-found', {
         method: 'POST',
@@ -52,13 +60,14 @@ export default function QuickFoundModal({ isOpen, onClose, lostItem }) {
 
       if (res.ok) {
         setSubmitted(true);
+        if (onSuccess) onSuccess();
       } else {
-        const error = await res.json();
-        alert('Failed to post found item: ' + (error.message || 'Unknown error'));
+        const errorData = await res.json();
+        setError('Failed to post found item: ' + (errorData.message || 'Unknown error'));
       }
     } catch (err) {
       console.error(err);
-      alert('Error connecting to server');
+      setError('Error connecting to server');
     } finally {
       setIsSubmitting(false);
     }
@@ -117,11 +126,24 @@ export default function QuickFoundModal({ isOpen, onClose, lostItem }) {
                 </div>
               ) : (
                 <form onSubmit={handleSubmit} className="space-y-5">
-                  <div className="bg-blue-50 p-4 rounded-xl border border-blue-100">
-                    <p className="text-sm text-blue-900 mb-1">You are reporting that you found an item matching:</p>
-                    <p className="font-bold text-blue-900 text-lg">{lostItem.title}</p>
-                    <p className="text-xs text-blue-700 mt-1">We will automatically notify the owner.</p>
+                  <div className="bg-blue-50 p-4 rounded-xl border border-blue-100 mb-2">
+                    <p className="text-sm text-blue-900 mb-2">You are reporting that you found an item matching:</p>
+                    <div className="bg-white/60 p-3 rounded-lg border border-blue-200/50">
+                      <p className="font-bold text-blue-900 text-lg mb-1">{lostItem.title.replace(/One\s*Plus/i, 'OnePlus')}</p>
+                      <div className="flex flex-wrap gap-2 text-xs font-semibold">
+                        <span className="bg-blue-100 text-blue-800 px-2 py-1 rounded">{lostItem.category}</span>
+                        {lostItem.itemType && <span className="bg-blue-100 text-blue-800 px-2 py-1 rounded">{lostItem.itemType}</span>}
+                      </div>
+                    </div>
+                    <p className="text-xs text-blue-700 mt-2">We will automatically notify the owner.</p>
                   </div>
+
+                  {error && (
+                    <div className="bg-red-50 border border-red-200 text-red-600 px-4 py-3 rounded-xl text-sm flex items-center gap-2 mb-2">
+                      <AlertCircle size={16} />
+                      {error}
+                    </div>
+                  )}
 
                   <div>
                     <label className="block text-sm font-semibold text-gray-700 mb-2">
@@ -157,7 +179,7 @@ export default function QuickFoundModal({ isOpen, onClose, lostItem }) {
 
                   <div>
                     <label className="block text-sm font-semibold text-gray-700 mb-2">
-                      Upload an Image (Optional)
+                      Upload an Image <span className="text-red-500">*</span>
                     </label>
                     
                     {!imagePreview ? (
@@ -166,7 +188,7 @@ export default function QuickFoundModal({ isOpen, onClose, lostItem }) {
                           <ImageIcon className="w-8 h-8 text-gray-400 mb-2" />
                           <p className="mb-2 text-sm text-gray-500"><span className="font-semibold">Click to upload</span> a photo of what you found</p>
                         </div>
-                        <input type="file" className="hidden" accept="image/*" onChange={handleImageChange} />
+                        <input required type="file" className="hidden" accept="image/*" onChange={handleImageChange} />
                       </label>
                     ) : (
                       <div className="relative w-full h-48 rounded-xl overflow-hidden group">
@@ -205,7 +227,7 @@ export default function QuickFoundModal({ isOpen, onClose, lostItem }) {
                     </button>
                     <button 
                       type="submit"
-                      disabled={isSubmitting || !location || !date}
+                      disabled={isSubmitting || !location || !date || !imageFile}
                       className="flex items-center justify-center gap-2 bg-blue-600 text-white px-8 py-2.5 rounded-xl font-semibold hover:bg-blue-700 transition-colors shadow-sm cursor-pointer disabled:opacity-70 disabled:cursor-not-allowed min-w-[160px]"
                     >
                       {isSubmitting ? (

@@ -102,7 +102,8 @@ export default function RegisterPage() {
     }
 
     if (!formData.agree) {
-      alert("Please agree to the Terms of Service.");
+      setServerError("Please agree to the Terms of Service.");
+      triggerShake('serverError');
       return;
     }
 

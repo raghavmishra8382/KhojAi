@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ArrowLeft, CheckCircle2, ChevronRight, MapPin, Calendar, ExternalLink, Activity, Sparkles } from 'lucide-react';
+import { ArrowLeft, CheckCircle2, ChevronRight, MapPin, Calendar, ExternalLink, Activity, Sparkles, Eye } from 'lucide-react';
 import DetailedComparisonModal from '../components/DetailedComparisonModal';
+import { useAppContext } from '../context/AppContext';
 
 export default function AIMatchResultsPage() {
   const { id } = useParams();
@@ -12,6 +13,8 @@ export default function AIMatchResultsPage() {
   const [matches, setMatches] = useState([]);
   const [loading, setLoading] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const { state } = useAppContext();
+  const { user } = state;
 
   useEffect(() => {
     const fetchData = async () => {
@@ -28,7 +31,8 @@ export default function AIMatchResultsPage() {
             date: itemData.date || new Date(itemData.createdAt).toLocaleDateString(),
             location: itemData.location,
             image: itemData.image || 'https://via.placeholder.com/150',
-            category: itemData.category
+            category: itemData.category,
+            user: itemData.user
           });
         }
 
@@ -66,6 +70,13 @@ export default function AIMatchResultsPage() {
   if (!lostItem) return <div className="text-center p-20 min-h-screen">Item not found</div>;
 
   const selectedMatch = matches[selectedMatchIndex];
+  
+  // Check ownership
+  const isOwner = lostItem && user && (
+    (typeof lostItem.user === 'object' && lostItem.user._id === user.id) || 
+    (typeof lostItem.user === 'string' && lostItem.user === user.id) ||
+    (lostItem.user === user.id)
+  );
 
   // Circular Progress Component
   const CircularProgress = ({ percentage }) => {
@@ -262,12 +273,21 @@ export default function AIMatchResultsPage() {
                   </div>
                   
                   <div className="relative z-10 w-full md:w-auto flex justify-end">
-                    <button 
-                      onClick={() => setIsModalOpen(true)}
-                      className="w-full md:w-auto bg-gradient-to-r from-gray-900 to-gray-800 text-white px-8 py-3.5 rounded-xl font-bold shadow-lg hover:shadow-xl hover:-translate-y-1 flex items-center justify-center gap-2 cursor-pointer active:scale-95 transition-all duration-300 border border-gray-700"
-                    >
-                      Review & Claim <ExternalLink size={18} />
-                    </button>
+                    {isOwner ? (
+                      <button 
+                        onClick={() => setIsModalOpen(true)}
+                        className="w-full md:w-auto bg-gradient-to-r from-gray-900 to-gray-800 text-white px-8 py-3.5 rounded-xl font-bold shadow-lg hover:shadow-xl hover:-translate-y-1 flex items-center justify-center gap-2 cursor-pointer active:scale-95 transition-all duration-300 border border-gray-700"
+                      >
+                        Review & Claim <ExternalLink size={18} />
+                      </button>
+                    ) : (
+                      <button 
+                        onClick={() => navigate(`/item/${selectedMatch.id}`)}
+                        className="w-full md:w-auto bg-white text-gray-900 px-8 py-3.5 rounded-xl font-bold shadow-sm hover:shadow-md hover:-translate-y-1 flex items-center justify-center gap-2 cursor-pointer active:scale-95 transition-all duration-300 border border-gray-200"
+                      >
+                        View Details <Eye size={18} />
+                      </button>
+                    )}
                   </div>
                 </div>
 

@@ -1,15 +1,21 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { UploadCloud, Sparkles, Loader2, MapPin, Calendar } from 'lucide-react';
+import { UploadCloud, Sparkles, Loader2, MapPin, Calendar, AlertCircle } from 'lucide-react';
 
 export default function PostItemPage({ type }) {
   const navigate = useNavigate();
   const location = useLocation();
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [error, setError] = useState(null);
   const [formData, setFormData] = useState({
     title: '',
     category: 'Electronics',
+    itemType: '',
+    customItemType: '',
+    brand: '',
+    color: '',
+    customColor: '',
     description: '',
     location: '',
     date: '',
@@ -21,6 +27,14 @@ export default function PostItemPage({ type }) {
 
   const token = localStorage.getItem('token');
 
+  const CATEGORY_TYPES = {
+    'Electronics': ['Earbuds', 'Laptop', 'Phone', 'Smartwatch', 'Tablet', 'Charger', 'Power Bank', 'Other'],
+    'Wallets & Cards': ['Wallet', 'Debit Card', 'Credit Card', 'ID Card', 'Driving License', 'Other'],
+    'Bags': ['Backpack', 'Laptop Bag', 'Handbag', 'Duffel Bag', 'Other'],
+    'Keys': ['Room Key', 'Bike Key', 'Car Key', 'Keychain', 'Other'],
+    'Other': []
+  };
+
   // JWT Authentication Guard
   useEffect(() => {
     if (!token) {
@@ -31,7 +45,13 @@ export default function PostItemPage({ type }) {
   if (!token) return null; // Prevent UI flashing before redirect
 
   const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+    if (name === 'category') {
+      // Reset itemType when category changes
+      setFormData({ ...formData, category: value, itemType: '', customItemType: '' });
+    } else {
+      setFormData({ ...formData, [name]: value });
+    }
   };
 
   const handleImageChange = (e) => {
@@ -47,8 +67,9 @@ export default function PostItemPage({ type }) {
   };
 
   const handleAIAutoFill = async () => {
+    setError(null);
     if (!imageFile) {
-      alert('Please upload an image first for the AI to analyze!');
+      setError('Please upload an image first for the AI to analyze!');
       return;
     }
 
@@ -71,15 +92,18 @@ export default function PostItemPage({ type }) {
           ...prev,
           title: result.title || prev.title,
           category: result.category || prev.category,
+          itemType: result.itemType || prev.itemType,
+          brand: result.brand || prev.brand,
+          color: result.color || prev.color,
           description: result.description || prev.description
         }));
       } else {
         const errorData = await response.json();
-        alert('AI Analysis failed: ' + (errorData.message || 'Unknown error'));
+        setError('AI Analysis failed: ' + (errorData.message || 'Unknown error'));
       }
     } catch (err) {
       console.error(err);
-      alert('Error connecting to AI service');
+      setError('Error connecting to AI service');
     } finally {
       setIsAnalyzing(false);
     }
@@ -87,11 +111,18 @@ export default function PostItemPage({ type }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setError(null);
     setIsSubmitting(true);
     try {
+      const finalItemType = (formData.category === 'Other' || formData.itemType === 'Other') ? formData.customItemType : formData.itemType;
+      const finalColor = formData.color === 'Other' ? formData.customColor : formData.color;
+
       const data = new FormData();
       data.append('title', formData.title);
       data.append('category', formData.category);
+      data.append('itemType', finalItemType);
+      data.append('brand', formData.brand);
+      data.append('color', finalColor);
       data.append('description', formData.description);
       data.append('location', formData.location);
       data.append('date', formData.date);
@@ -114,11 +145,11 @@ export default function PostItemPage({ type }) {
         navigate('/dashboard');
       } else {
         const errorData = await response.json();
-        alert('Error: ' + (errorData.message || 'Failed to post item'));
+        setError('Error: ' + (errorData.message || 'Failed to post item'));
       }
     } catch (err) {
       console.error(err);
-      alert('Error connecting to server');
+      setError('Error connecting to server');
     } finally {
       setIsSubmitting(false);
     }
@@ -134,6 +165,13 @@ export default function PostItemPage({ type }) {
           Report {type === 'lost' ? 'Lost' : 'Found'} Item
         </h1>
         
+        {error && (
+          <div className="bg-red-50 border border-red-200 text-red-600 px-4 py-3 rounded-xl text-sm flex items-center gap-2 mb-6">
+            <AlertCircle size={16} />
+            {error}
+          </div>
+        )}
+
         <form onSubmit={handleSubmit} className="space-y-8">
           
           {/* AI Image Upload Section */}
@@ -183,15 +221,72 @@ export default function PostItemPage({ type }) {
               <input type="text" name="title" value={formData.title} onChange={handleChange} className="w-full px-4 py-3 bg-white/50 backdrop-blur-sm border border-gray-200 rounded-xl focus:ring-2 focus:ring-[#0052FF] outline-none transition-all text-[15px]" required />
             </div>
             
-            <div>
-              <label className="block text-sm font-semibold text-gray-700 mb-2">Category *</label>
-              <select name="category" value={formData.category} onChange={handleChange} className="w-full px-4 py-3 bg-white/50 backdrop-blur-sm border border-gray-200 rounded-xl focus:ring-2 focus:ring-[#0052FF] outline-none transition-all text-[15px]">
-                <option>Electronics</option>
-                <option>Wallets & Cards</option>
-                <option>Bags</option>
-                <option>Keys</option>
-                <option>Other</option>
-              </select>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+              <div>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">Category *</label>
+                <select name="category" value={formData.category} onChange={handleChange} className="w-full px-4 py-3 bg-white/50 backdrop-blur-sm border border-gray-200 rounded-xl focus:ring-2 focus:ring-[#0052FF] outline-none transition-all text-[15px]">
+                  <option>Electronics</option>
+                  <option>Wallets & Cards</option>
+                  <option>Bags</option>
+                  <option>Keys</option>
+                  <option>Other</option>
+                </select>
+              </div>
+
+              <div>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">Item Type *</label>
+                {formData.category === 'Other' ? (
+                  <input type="text" name="customItemType" value={formData.customItemType} onChange={handleChange} className="w-full px-4 py-3 bg-white/50 backdrop-blur-sm border border-gray-200 rounded-xl focus:ring-2 focus:ring-[#0052FF] outline-none transition-all text-[15px]" placeholder="Please specify item type *" required />
+                ) : (
+                  <div className="space-y-3">
+                    <select name="itemType" value={formData.itemType} onChange={handleChange} className="w-full px-4 py-3 bg-white/50 backdrop-blur-sm border border-gray-200 rounded-xl focus:ring-2 focus:ring-[#0052FF] outline-none transition-all text-[15px]" required>
+                      <option value="" disabled>Select a type...</option>
+                      {CATEGORY_TYPES[formData.category]?.map(type => (
+                        <option key={type} value={type}>{type}</option>
+                      ))}
+                    </select>
+                    {formData.itemType === 'Other' && (
+                      <input type="text" name="customItemType" value={formData.customItemType} onChange={handleChange} className="w-full px-4 py-3 bg-white/50 backdrop-blur-sm border border-gray-200 rounded-xl focus:ring-2 focus:ring-[#0052FF] outline-none transition-all text-[15px]" placeholder="Please specify item type *" required />
+                    )}
+                  </div>
+                )}
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+              <div>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">Brand</label>
+                <input type="text" name="brand" value={formData.brand} onChange={handleChange} list="brand-suggestions" className="w-full px-4 py-3 bg-white/50 backdrop-blur-sm border border-gray-200 rounded-xl focus:ring-2 focus:ring-[#0052FF] outline-none transition-all text-[15px]" placeholder="e.g. Apple, OnePlus" />
+                <datalist id="brand-suggestions">
+                  <option value="OnePlus" />
+                  <option value="Apple" />
+                  <option value="Samsung" />
+                  <option value="HP" />
+                  <option value="Dell" />
+                  <option value="Boat" />
+                  <option value="Lenovo" />
+                </datalist>
+              </div>
+              
+              <div>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">Color</label>
+                <div className="space-y-3">
+                  <select name="color" value={formData.color} onChange={handleChange} className="w-full px-4 py-3 bg-white/50 backdrop-blur-sm border border-gray-200 rounded-xl focus:ring-2 focus:ring-[#0052FF] outline-none transition-all text-[15px]">
+                    <option value="">Select a color...</option>
+                    <option value="Black">Black</option>
+                    <option value="White">White</option>
+                    <option value="Silver">Silver</option>
+                    <option value="Blue">Blue</option>
+                    <option value="Red">Red</option>
+                    <option value="Green">Green</option>
+                    <option value="Gray">Gray</option>
+                    <option value="Other">Other</option>
+                  </select>
+                  {formData.color === 'Other' && (
+                    <input type="text" name="customColor" value={formData.customColor} onChange={handleChange} className="w-full px-4 py-3 bg-white/50 backdrop-blur-sm border border-gray-200 rounded-xl focus:ring-2 focus:ring-[#0052FF] outline-none transition-all text-[15px]" placeholder="Please specify color *" required />
+                  )}
+                </div>
+              </div>
             </div>
 
             <div>
