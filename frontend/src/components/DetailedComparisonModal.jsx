@@ -1,12 +1,17 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, CheckCircle, Info, MapPin, Calendar, Check, MessageCircle } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 import ClaimVerificationModal from './ClaimVerificationModal';
 import ContactOwnerModal from './ContactOwnerModal';
+import { useAppContext } from '../context/AppContext';
 
 export default function DetailedComparisonModal({ isOpen, onClose, lostItem, foundItem }) {
   const [isClaimModalOpen, setIsClaimModalOpen] = useState(false);
   const [isContactModalOpen, setIsContactModalOpen] = useState(false);
+  const navigate = useNavigate();
+  const { state } = useAppContext();
+  const currentUser = state?.user;
 
   if (!lostItem || !foundItem) return null;
 
@@ -124,18 +129,60 @@ export default function DetailedComparisonModal({ isOpen, onClose, lostItem, fou
               >
                 Cancel
               </button>
-              <button 
-                onClick={() => setIsContactModalOpen(true)}
-                className="w-full sm:w-auto px-6 py-2.5 rounded-xl font-semibold text-gray-700 bg-white border-2 border-gray-200 hover:border-gray-300 hover:bg-gray-50 transition-colors flex items-center justify-center gap-2 cursor-pointer"
-              >
-                <MessageCircle size={18} /> Contact Finder
-              </button>
-              <button 
-                onClick={() => setIsClaimModalOpen(true)}
-                className="w-full sm:w-auto flex items-center justify-center gap-2 bg-gray-900 text-white px-8 py-2.5 rounded-xl font-semibold hover:bg-gray-800 transition-colors shadow-sm cursor-pointer"
-              >
-                <CheckCircle size={18} /> Confirm & Claim Item
-              </button>
+              {/* Show actions conditionally:
+                  - If current user is the owner of the lost item: allow Contact Finder + Claim
+                  - Else if logged in: show View Details (no claim)
+                  - Else: prompt to Sign in to interact
+              */}
+              {(() => {
+                const currentUserId = currentUser?.id || currentUser?._id;
+                const lostOwnerId = typeof lostItem.user === 'object' ? (lostItem.user._id || lostItem.user.id) : lostItem.user;
+                const isOwner = currentUserId && lostOwnerId && String(currentUserId) === String(lostOwnerId);
+
+                if (isOwner) {
+                  return (
+                    <>
+                      <button 
+                        onClick={() => setIsContactModalOpen(true)}
+                        className="w-full sm:w-auto px-6 py-2.5 rounded-xl font-semibold text-gray-700 bg-white border-2 border-gray-200 hover:border-gray-300 hover:bg-gray-50 transition-colors flex items-center justify-center gap-2 cursor-pointer"
+                      >
+                        <MessageCircle size={18} /> Contact Finder
+                      </button>
+                      <button 
+                        onClick={() => setIsClaimModalOpen(true)}
+                        className="w-full sm:w-auto flex items-center justify-center gap-2 bg-gray-900 text-white px-8 py-2.5 rounded-xl font-semibold hover:bg-gray-800 transition-colors shadow-sm cursor-pointer"
+                      >
+                        <CheckCircle size={18} /> Confirm & Claim Item
+                      </button>
+                    </>
+                  );
+                }
+
+                if (currentUserId) {
+                  // Logged-in but not owner: no claim allowed via this lost-item match
+                  return (
+                    <button
+                      onClick={() => {
+                        onClose();
+                        navigate(`/items/${foundItem._id || foundItem.id}`);
+                      }}
+                      className="w-full sm:w-auto px-6 py-2.5 rounded-xl font-semibold text-indigo-700 bg-indigo-50 border border-indigo-100 hover:bg-indigo-100 shadow-sm cursor-pointer"
+                    >
+                      View Details
+                    </button>
+                  );
+                }
+
+                // Not logged in
+                return (
+                  <button
+                    onClick={() => navigate('/login')}
+                    className="w-full sm:w-auto px-6 py-2.5 rounded-xl font-semibold text-white bg-indigo-600 hover:bg-indigo-700 transition-colors shadow-sm cursor-pointer"
+                  >
+                    Sign in to interact
+                  </button>
+                );
+              })()}
             </div>
           </motion.div>
         </div>

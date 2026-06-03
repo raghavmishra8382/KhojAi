@@ -39,16 +39,8 @@ export default function DashboardPage() {
 
         if (itemsRes.ok) {
           const allItems = await itemsRes.json();
-          // Filter items by current user
-          const userId = user?.id || user?._id;
-          if (userId) {
-            setItems(allItems.filter(item => {
-              const itemUserId = typeof item.user === 'object' ? item.user._id : item.user;
-              return itemUserId === userId;
-            }));
-          } else {
-            setItems(allItems);
-          }
+          // Show community items on the dashboard (do not filter to current user)
+          setItems(allItems);
         }
 
         // Fetch Received Claims

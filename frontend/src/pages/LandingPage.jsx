@@ -230,18 +230,20 @@ export default function LandingPage() {
           </p>
           
           <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 mb-14">
-            <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} className="w-full sm:w-auto">
+            <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.98 }} className="w-full sm:w-auto">
               <Link 
                 to="/register" 
-                className="w-full sm:w-auto bg-gradient-brand text-white px-8 py-4 rounded-xl font-bold text-[16px] shadow-[0_0_30px_rgba(0,82,255,0.3)] hover:shadow-[0_0_40px_rgba(0,82,255,0.5)] flex items-center justify-center gap-2 cursor-pointer transition-all duration-300 group"
+                aria-label="Get started with KhojAI - create a free account"
+                className="w-full sm:w-auto btn-primary mobile-cta hover-rise press-press flex items-center justify-center gap-2"
               >
                 Get Started Free <ArrowRight size={18} className="group-hover:translate-x-1.5 transition-transform duration-300" />
               </Link>
             </motion.div>
-            <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} className="w-full sm:w-auto">
+            <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }} className="w-full sm:w-auto">
               <Link 
                 to="/search" 
-                className="w-full sm:w-auto bg-white/80 backdrop-blur-md text-[#111827] px-8 py-4 rounded-xl font-bold hover:bg-white text-[16px] border-2 border-gray-200 hover:border-blue-500 hover:shadow-[0_10px_20px_rgba(0,82,255,0.1)] block cursor-pointer transition-all duration-300"
+                aria-label="Search lost and found items"
+                className="w-full sm:w-auto btn-ghost mobile-cta hover-rise press-press flex items-center justify-center"
               >
                 Search Items
               </Link>

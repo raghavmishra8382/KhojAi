@@ -71,11 +71,11 @@ export default function AIMatchResultsPage() {
 
   const selectedMatch = matches[selectedMatchIndex];
   
-  // Check ownership
-  const isOwner = lostItem && user && (
-    (typeof lostItem.user === 'object' && lostItem.user._id === user.id) || 
-    (typeof lostItem.user === 'string' && lostItem.user === user.id) ||
-    (lostItem.user === user.id)
+  // Check ownership safely
+  const userId = user ? (user.id || user._id) : null;
+  const isOwner = lostItem && lostItem.user && userId && (
+    (typeof lostItem.user === 'object' && (lostItem.user._id === userId || lostItem.user.id === userId)) || 
+    (typeof lostItem.user === 'string' && lostItem.user === userId)
   );
 
   // Circular Progress Component

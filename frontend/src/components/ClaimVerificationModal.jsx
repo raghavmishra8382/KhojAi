@@ -13,7 +13,10 @@ export default function ClaimVerificationModal({ isOpen, onClose, foundItem, los
   const [submitted, setSubmitted] = useState(false);
   const [error, setError] = useState(null);
 
-  if (!foundItem || !lostItem) return null;
+  // Allow opening the modal when either a foundItem OR a lostItem is provided.
+  if (!foundItem && !lostItem) return null;
+
+  const itemContext = foundItem || lostItem;
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
@@ -35,12 +38,12 @@ export default function ClaimVerificationModal({ isOpen, onClose, foundItem, los
     setIsSubmitting(true);
     
     try {
-      const formData = new FormData();
-      formData.append('foundItemId', foundItem.id || foundItem._id);
-      formData.append('lostItemId', lostItem.id || lostItem._id);
-      formData.append('identifyingDetail', identifyingDetail);
-      if (message) formData.append('message', message);
-      if (proofImage) formData.append('proofImage', proofImage);
+    const formData = new FormData();
+    if (foundItem) formData.append('foundItemId', foundItem.id || foundItem._id);
+    if (lostItem) formData.append('lostItemId', lostItem.id || lostItem._id);
+    formData.append('identifyingDetail', identifyingDetail);
+    if (message) formData.append('message', message);
+    if (proofImage) formData.append('proofImage', proofImage);
 
       const res = await fetch('http://localhost:5000/api/claims', {
         method: 'POST',
@@ -105,9 +108,9 @@ export default function ClaimVerificationModal({ isOpen, onClose, foundItem, los
                   <CheckCircle size={40} />
                 </motion.div>
                 <h3 className="text-2xl font-bold text-gray-900 mb-2">Claim Submitted!</h3>
-                <p className="text-gray-500 mb-8 max-w-md mx-auto">
-                  Your claim has been securely sent to the finder. You will be notified in your Dashboard when they review your request.
-                </p>
+                  <p className="text-gray-500 mb-8 max-w-md mx-auto">
+                    Your claim for "{itemContext.title}" has been securely sent. You will be notified in your Dashboard when the finder reviews your request.
+                  </p>
                 <button 
                   onClick={onClose}
                   className="bg-gray-900 text-white px-8 py-3 rounded-xl font-semibold hover:bg-gray-800 transition-colors cursor-pointer"

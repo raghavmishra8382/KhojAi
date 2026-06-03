@@ -240,10 +240,12 @@ export default function ItemDetailPage() {
                 ) : isOwner ? (
                   // Owner Controls
                   <>
-                    <button onClick={() => navigate(`/matches/${item.id}`)} className="flex-[2] py-4 px-6 rounded-2xl font-bold text-white bg-gradient-to-r from-indigo-600 to-blue-500 shadow-[0_0_20px_rgba(79,70,229,0.4)] hover:shadow-[0_0_25px_rgba(79,70,229,0.6)] cursor-pointer hover:-translate-y-1 transition-all duration-300 flex justify-center items-center gap-3 text-lg">
-                      <Sparkles size={20} className="text-white" />
-                      View AI Matching
-                    </button>
+                    {item.itemType === 'Lost' && (
+                      <button onClick={() => navigate(`/matches/${item.id}`)} className="flex-[2] py-4 px-6 rounded-2xl font-bold text-white bg-gradient-to-r from-indigo-600 to-blue-500 shadow-[0_0_20px_rgba(79,70,229,0.4)] hover:shadow-[0_0_25px_rgba(79,70,229,0.6)] cursor-pointer hover:-translate-y-1 transition-all duration-300 flex justify-center items-center gap-3 text-lg">
+                        <Sparkles size={20} className="text-white" />
+                        View AI Matching
+                      </button>
+                    )}
                     
                     {item.itemType === 'Found' && (
                       <button 

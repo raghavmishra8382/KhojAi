@@ -22,10 +22,22 @@ const upload = multer({ storage: storage });
 // @desc    Submit a new claim request
 router.post('/', auth, upload.single('proofImage'), async (req, res) => {
   try {
-    const { foundItemId, lostItemId, identifyingDetail, message } = req.body;
+    const body = req.body || {};
+    const { foundItemId, lostItemId, identifyingDetail, message } = body;
     let proofImage = '';
     if (req.file) {
       proofImage = req.file.path;
+    }
+
+    // If this claim references a lost item (i.e. originating from a lost report match),
+    // ensure only the owner of that lost item can create the claim through that match.
+    if (lostItemId) {
+      const lostItem = await Item.findById(lostItemId);
+      if (lostItem) {
+        if (String(lostItem.user) !== String(req.user.id)) {
+          return res.status(403).json({ message: 'Only the owner of the lost item can claim via this match.' });
+        }
+      }
     }
 
     const claim = new ClaimRequest({

@@ -10,62 +10,65 @@ async function findMatches(item) {
   const targetType = item.type === 'lost' ? 'found' : 'lost';
 
   // Fetch all items of the opposite type that have embeddings and are not resolved
+  // Only consider active/open items
   const potentialMatches = await Item.find({
     type: targetType,
     status: 'open'
   }).populate('user', 'name');
 
   let matchesWithScores = potentialMatches.map(matchCandidate => {
-    // Strict rule-based filtering before AI scoring
+    // First: strict pre-filters (rule-based) to reduce bad matches
+    // 1) Category must match exactly (if either side has category info)
     if (item.category && matchCandidate.category && item.category.toLowerCase() !== matchCandidate.category.toLowerCase()) {
-      return null; // Reject if categories don't match
+      return null; // reject immediately
     }
-    // We no longer strictly reject based on itemType since "Earbuds" != "Wireless Earbuds"
 
+    // 2) Only consider active/open items (ensured by DB query), but guard again
+    if (matchCandidate.status && matchCandidate.status !== 'open') {
+      return null;
+    }
 
-    // 1. Semantic Similarity
+    // 3) Prefer same location/campus; treat as a soft filter (we'll score it)
+
+    // Semantic (embedding/description) similarity (fallback to title heuristics)
     let semanticSimilarity = 0;
     if (item.embedding && item.embedding.length > 0 && matchCandidate.embedding && matchCandidate.embedding.length > 0) {
       semanticSimilarity = cosineSimilarity(item.embedding, matchCandidate.embedding);
     } else {
-      // Fallback: If embeddings are missing, use simple title matching
       const title1 = item.title ? item.title.toLowerCase() : '';
       const title2 = matchCandidate.title ? matchCandidate.title.toLowerCase() : '';
       if (title1 && title2 && (title1.includes(title2) || title2.includes(title1))) {
         semanticSimilarity = 0.8;
       } else if (title1 && title2) {
-        // Simple word match check if includes fails (e.g. "OnePlus Black Earbuds" vs "OnePlus Earbuds")
         const words1 = title1.split(/\s+/);
         const words2 = title2.split(/\s+/);
         const commonWords = words1.filter(w => words2.includes(w));
         if (commonWords.length >= 2 || (words1.length === 1 && commonWords.length === 1)) {
-           semanticSimilarity = 0.6;
+          semanticSimilarity = 0.6;
         }
       }
     }
-    
-    // 2. Category Match (always 1 if we passed the strict filter, but good for legacy items)
+
+    // Scoring components
+    // Category: binary (we already required match above, so this will be 1 when present)
     const categoryMatchScore = (item.category && matchCandidate.category && item.category.toLowerCase() === matchCandidate.category.toLowerCase()) ? 1 : 0;
-    
-    // 3. Location Match
+
+    // Brand: encourage match, penalize explicit mismatch. If brand missing on either side, treat as neutral (0.5)
+    let brandMatchScore = 0.5;
+    if (item.brand && matchCandidate.brand) {
+      brandMatchScore = item.brand.toLowerCase() === matchCandidate.brand.toLowerCase() ? 1 : 0;
+    }
+
+    // Location: exact match gives full score, otherwise 0
     const locationMatchScore = (item.location && matchCandidate.location && item.location.toLowerCase() === matchCandidate.location.toLowerCase()) ? 1 : 0;
-    
-    // 4. Brand Match (Huge improvement factor)
-    const brandMatchScore = (item.brand && matchCandidate.brand && item.brand.toLowerCase() === matchCandidate.brand.toLowerCase()) ? 1 : 0;
 
-    // 5. Color Match
-    const colorMatchScore = (item.color && matchCandidate.color && item.color.toLowerCase() === matchCandidate.color.toLowerCase()) ? 1 : 0;
+    // Final weighted formula (as requested):
+    // 40% Category, 25% Brand, 20% Location, 15% Semantic/Description
+    const finalScore = (0.40 * categoryMatchScore) + (0.25 * brandMatchScore) + (0.20 * locationMatchScore) + (0.15 * semanticSimilarity);
 
-    // 6. Item Type Match
-    const itemTypeMatchScore = (item.itemType && matchCandidate.itemType && item.itemType.toLowerCase() === matchCandidate.itemType.toLowerCase()) ? 1 : 0;
-
-    // Final Score Formula (Weight adjusted to include brand and color)
-    const finalScore = (0.45 * semanticSimilarity) + (0.15 * categoryMatchScore) + (0.1 * brandMatchScore) + (0.1 * colorMatchScore) + (0.1 * locationMatchScore) + (0.1 * itemTypeMatchScore);
-    
-    // Determine Confidence Label based on percentage
     const similarityPercentage = Math.round(finalScore * 100);
     let confidenceLabel = 'Weak Match';
-    if (similarityPercentage > 85) {
+    if (similarityPercentage >= 85) {
       confidenceLabel = 'Strong Match';
     } else if (similarityPercentage >= 70) {
       confidenceLabel = 'Medium Match';
@@ -85,8 +88,8 @@ async function findMatches(item) {
   // Sort by highest score first
   matchesWithScores.sort((a, b) => b.score - a.score);
 
-  // Filter out low quality matches (e.g., < 50%)
-  const validMatches = matchesWithScores.filter(match => match.similarityPercentage >= 50);
+  // Filter out low quality matches (show only meaningful matches e.g., >= 70%)
+  const validMatches = matchesWithScores.filter(match => match.similarityPercentage >= 70);
 
   // Return top 5 matches
   return validMatches.slice(0, 5);

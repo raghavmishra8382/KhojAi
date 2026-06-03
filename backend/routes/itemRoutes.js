@@ -71,11 +71,14 @@ router.post('/', auth, upload.single('image'), async (req, res) => {
         const Notification = require('../models/Notification');
         
         for (const match of topMatches) {
-          if (match.score > 0.6 && match.item.user) {
+          // match.itemDetails is returned by the matching service
+          const matchedItem = match.itemDetails;
+          if (match.score > 0.6 && matchedItem && matchedItem.user) {
+            const userId = matchedItem.user._id || matchedItem.user;
             const notification = new Notification({
-              userId: match.item.user,
+              userId: userId,
               title: 'Possible Match Found! 🔍',
-              message: `A newly found item "${savedItem.title}" matches the description of your lost item "${match.item.title}". Check your matches!`
+              message: `A newly found item "${savedItem.title}" matches the description of your lost item "${matchedItem.title}". Check your matches!`
             });
             await notification.save();
           }

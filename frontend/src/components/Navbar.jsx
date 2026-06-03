@@ -94,7 +94,7 @@ export default function Navbar() {
           {/* Right Navigation */}
           <div className="flex items-center gap-5">
             
-            {/* Always visible Report Item button */}
+            {/* Always visible Report Item button (desktop) */}
             <button 
               onClick={(e) => {
                 if (!state.user && !localStorage.getItem('token')) {
@@ -104,9 +104,25 @@ export default function Navbar() {
                   navigate('/post-lost');
                 }
               }}
-              className="hidden sm:flex items-center gap-2 bg-gradient-brand hover:shadow-[0_0_20px_rgba(0,82,255,0.4)] hover:-translate-y-0.5 hover:opacity-90 cursor-pointer hover:scale-105 transition-all duration-300 text-white px-5 py-2.5 rounded-full font-bold text-[14px] shadow-md shadow-blue-500/20"
+              className="hidden sm:flex items-center gap-2 bg-gradient-brand hover:shadow-[0_0_20px_rgba(0,82,255,0.4)] hover:-translate-y-0.5 hover:opacity-90 cursor-pointer hover:scale-105 transition-all duration-300 text-white px-5 py-2.5 rounded-full font-bold text-[14px] shadow-md shadow-blue-500/20 desktop-only-sm"
             >
               <Plus size={18} strokeWidth={3} /> Report Item
+            </button>
+
+            {/* Floating mobile FAB for quick reporting */}
+            <button
+              onClick={() => {
+                if (!state.user && !localStorage.getItem('token')) {
+                  navigate('/login', { state: { message: 'Please login to report an item', from: '/post-lost' } });
+                } else {
+                  navigate('/post-lost');
+                }
+              }}
+              aria-label="Report item"
+              className="fab-mobile w-14 h-14 rounded-full bg-gradient-brand text-white flex items-center justify-center shadow-xl hover:scale-105 active:scale-95 focus:outline-none"
+              title="Report Item"
+            >
+              <Plus size={20} strokeWidth={3} />
             </button>
 
             {state.user ? (
@@ -169,9 +185,14 @@ export default function Navbar() {
                 </div>
                 
                 <div className="flex items-center gap-5 pl-6 border-l border-gray-200/50 ml-2">
-                  <div className="flex items-center gap-3" title="Your Profile">
-                    <div className="w-10 h-10 rounded-full bg-blue-50 border-2 border-white shadow-md flex items-center justify-center text-[#0052FF] overflow-hidden hover:border-[#0052FF] cursor-pointer hover:scale-105 active:scale-95 transition-all duration-300">
-                       <User size={20} />
+                  <div className="flex items-center gap-3" title={state.user?.name || 'Profile'}>
+                    <div className="w-10 h-10 rounded-full bg-gradient-to-br from-[#E6F7FF] to-[#E6FBF2] border-2 border-white shadow-md flex items-center justify-center text-[#0052FF] overflow-hidden hover:scale-105 active:scale-95 transition-all duration-300 font-semibold">
+                      {(() => {
+                        const name = state.user?.name || '';
+                        const parts = name.split(' ').filter(Boolean);
+                        const initials = parts.length === 0 ? '' : (parts.length === 1 ? parts[0][0] : (parts[0][0] + parts[parts.length-1][0]));
+                        return initials.toUpperCase() || <User size={18} />;
+                      })()}
                     </div>
                   </div>
                   <button onClick={logout} className="text-gray-400 hover:text-red-500 cursor-pointer hover:scale-110 active:scale-95 transition-all duration-300 p-2" title="Logout">
