@@ -50,7 +50,7 @@ export default function SettingsPage() {
     setError(null);
     setMessage(null);
     try {
-      const res = await fetch('http://localhost:5000/api/auth/me/password', {
+      const res = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:5000'}/api/auth/me/password`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -74,7 +74,7 @@ export default function SettingsPage() {
   // Handle Preferences Toggle
   const handleTogglePreference = async (key, value) => {
     try {
-      const res = await fetch('http://localhost:5000/api/auth/me/preferences', {
+      const res = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:5000'}/api/auth/me/preferences`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -106,7 +106,7 @@ export default function SettingsPage() {
     setLoading(true);
     setError(null);
     try {
-      const res = await fetch('http://localhost:5000/api/auth/me', {
+      const res = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:5000'}/api/auth/me`, {
         method: 'DELETE',
         headers: { 
           'Content-Type': 'application/json',

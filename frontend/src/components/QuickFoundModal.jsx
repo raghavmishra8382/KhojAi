@@ -50,7 +50,7 @@ export default function QuickFoundModal({ isOpen, onClose, lostItem, onSuccess }
       if (details) formData.append('description', details);
       formData.append('image', imageFile);
 
-      const res = await fetch('http://localhost:5000/api/items/quick-found', {
+      const res = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:5000'}/api/items/quick-found`, {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${token}`

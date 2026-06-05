@@ -51,7 +51,7 @@ export default function ClaimVerificationModal({ isOpen, onClose, foundItem, los
         console.log('form:', pair[0], pair[1]);
       }
 
-      const res = await fetch('http://localhost:5000/api/claims', {
+      const res = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:5000'}/api/claims`, {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${token}`

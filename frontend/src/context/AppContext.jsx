@@ -53,7 +53,7 @@ export const AppProvider = ({ children }) => {
       const token = localStorage.getItem('token');
       if (token) {
         try {
-          const res = await fetch('http://localhost:5000/api/auth/me', {
+          const res = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:5000'}/api/auth/me`, {
             headers: { 'x-auth-token': token }
           });
           if (res.ok) {

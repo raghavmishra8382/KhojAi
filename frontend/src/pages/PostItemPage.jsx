@@ -78,7 +78,7 @@ export default function PostItemPage({ type }) {
       const data = new FormData();
       data.append('image', imageFile);
 
-      const response = await fetch('http://localhost:5000/api/ai/analyze-image', {
+      const response = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:5000'}/api/ai/analyze-image`, {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${token}`
@@ -133,7 +133,7 @@ export default function PostItemPage({ type }) {
       }
 
       const token = localStorage.getItem('token');
-      const response = await fetch('http://localhost:5000/api/items', {
+      const response = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:5000'}/api/items`, {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${token}`

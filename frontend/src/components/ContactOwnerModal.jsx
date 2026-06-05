@@ -19,7 +19,7 @@ export default function ContactOwnerModal({ isOpen, onClose, item }) {
     setIsSubmitting(true);
     
     try {
-      const res = await fetch('http://localhost:5000/api/contact', {
+      const res = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:5000'}/api/contact`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

@@ -30,7 +30,7 @@ export default function ItemDetailPage() {
   React.useEffect(() => {
     const fetchItem = async () => {
       try {
-        const response = await fetch(`http://localhost:5000/api/items/${id}`);
+        const response = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:5000'}/api/items/${id}`);
         const data = await response.json();
         if (response.ok) {
           setItem({
@@ -57,7 +57,7 @@ export default function ItemDetailPage() {
     const fetchReportStatus = async () => {
       if (user && token) {
         try {
-          const res = await fetch(`http://localhost:5000/api/items`);
+          const res = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:5000'}/api/items`);
           const data = await res.json();
           const userId = user.id || user._id;
           const reported = data.some(i => 
@@ -87,7 +87,7 @@ export default function ItemDetailPage() {
   const confirmResolve = async () => {
     setShowResolveConfirm(false);
     try {
-      const res = await fetch(`http://localhost:5000/api/items/${item.id}/resolve`, {
+      const res = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:5000'}/api/items/${item.id}/resolve`, {
         method: 'PUT',
         headers: { 'Authorization': `Bearer ${token}` }
       });
@@ -110,7 +110,7 @@ export default function ItemDetailPage() {
   const handleDeletePost = async () => {
     setIsDeleting(true);
     try {
-      const res = await fetch(`http://localhost:5000/api/items/${item.id}`, {
+      const res = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:5000'}/api/items/${item.id}`, {
         method: 'DELETE',
         headers: { 'Authorization': `Bearer ${token}` }
       });

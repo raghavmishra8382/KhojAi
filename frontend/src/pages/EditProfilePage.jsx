@@ -39,7 +39,7 @@ export default function EditProfilePage() {
         formData.append('avatarUrl', avatarUrl);
       }
 
-      const res = await fetch('http://localhost:5000/api/auth/me', {
+      const res = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:5000'}/api/auth/me`, {
         method: 'PUT',
         headers: { 'x-auth-token': token }, // No Content-Type header so browser sets multipart boundary
         body: formData

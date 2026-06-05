@@ -20,7 +20,7 @@ export default function Navbar() {
       const fetchNotifications = async () => {
         const token = localStorage.getItem('token');
         try {
-          const res = await fetch('http://localhost:5000/api/notifications', {
+          const res = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:5000'}/api/notifications`, {
             headers: { 'Authorization': `Bearer ${token}` }
           });
           if (res.ok) {
@@ -39,7 +39,7 @@ export default function Navbar() {
   const handleMarkAsRead = async (id) => {
     const token = localStorage.getItem('token');
     try {
-      await fetch(`http://localhost:5000/api/notifications/${id}/read`, {
+      await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:5000'}/api/notifications/${id}/read`, {
         method: 'PUT',
         headers: { 'Authorization': `Bearer ${token}` }
       });
@@ -52,7 +52,7 @@ export default function Navbar() {
   const handleMarkAllAsRead = async () => {
     const token = localStorage.getItem('token');
     try {
-      await fetch(`http://localhost:5000/api/notifications/read-all`, {
+      await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:5000'}/api/notifications/read-all`, {
         method: 'PUT',
         headers: { 'Authorization': `Bearer ${token}` }
       });

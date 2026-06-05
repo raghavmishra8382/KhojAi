@@ -29,12 +29,12 @@ export default function DashboardPage() {
       try {
         setLoading(true);
         const [itemsRes, sentClaimsRes, receivedClaimsRes, sentMsgsRes, receivedMsgsRes, matchesRes] = await Promise.all([
-          fetch('http://localhost:5000/api/items'),
-          fetch('http://localhost:5000/api/claims/submitted', { headers: { 'Authorization': `Bearer ${token}` } }),
-          fetch('http://localhost:5000/api/claims/received', { headers: { 'Authorization': `Bearer ${token}` } }),
-          fetch('http://localhost:5000/api/contact/submitted', { headers: { 'Authorization': `Bearer ${token}` } }),
-          fetch('http://localhost:5000/api/contact/received', { headers: { 'Authorization': `Bearer ${token}` } }),
-          fetch('http://localhost:5000/api/items/my/matches', { headers: { 'Authorization': `Bearer ${token}` } })
+          fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:5000'}/api/items`),
+          fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:5000'}/api/claims/submitted`, { headers: { 'Authorization': `Bearer ${token}` } }),
+          fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:5000'}/api/claims/received`, { headers: { 'Authorization': `Bearer ${token}` } }),
+          fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:5000'}/api/contact/submitted`, { headers: { 'Authorization': `Bearer ${token}` } }),
+          fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:5000'}/api/contact/received`, { headers: { 'Authorization': `Bearer ${token}` } }),
+          fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:5000'}/api/items/my/matches`, { headers: { 'Authorization': `Bearer ${token}` } })
         ]);
 
         if (itemsRes.ok) {
@@ -44,25 +44,25 @@ export default function DashboardPage() {
         }
 
         // Fetch Received Claims
-        const recRes = await fetch('http://localhost:5000/api/claims/received', {
+        const recRes = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:5000'}/api/claims/received`, {
           headers: { 'Authorization': `Bearer ${token}` }
         });
         if (recRes.ok) setReceivedClaims(await recRes.json());
 
         // Fetch Submitted Claims
-        const subRes = await fetch('http://localhost:5000/api/claims/submitted', {
+        const subRes = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:5000'}/api/claims/submitted`, {
           headers: { 'Authorization': `Bearer ${token}` }
         });
         if (subRes.ok) setSubmittedClaims(await subRes.json());
 
         // Fetch Received Messages
-        const recMsgRes = await fetch('http://localhost:5000/api/contact/received', {
+        const recMsgRes = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:5000'}/api/contact/received`, {
           headers: { 'Authorization': `Bearer ${token}` }
         });
         if (recMsgRes.ok) setReceivedMessages(await recMsgRes.json());
 
         // Fetch Submitted Messages
-        const subMsgRes = await fetch('http://localhost:5000/api/contact/submitted', {
+        const subMsgRes = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:5000'}/api/contact/submitted`, {
           headers: { 'Authorization': `Bearer ${token}` }
         });
         if (subMsgRes.ok) setSubmittedMessages(await subMsgRes.json());
@@ -78,7 +78,7 @@ export default function DashboardPage() {
 
   const handleUpdateClaimStatus = async (claimId, status) => {
     try {
-      const res = await fetch(`http://localhost:5000/api/claims/${claimId}/status`, {
+      const res = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:5000'}/api/claims/${claimId}/status`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -89,7 +89,7 @@ export default function DashboardPage() {
       
       if (res.ok) {
         // Refresh received claims
-        const recRes = await fetch('http://localhost:5000/api/claims/received', {
+        const recRes = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:5000'}/api/claims/received`, {
           headers: { 'Authorization': `Bearer ${token}` }
         });
         if (recRes.ok) setReceivedClaims(await recRes.json());
@@ -105,7 +105,7 @@ export default function DashboardPage() {
 
   const handleUpdateMessageStatus = async (msgId, status) => {
     try {
-      const res = await fetch(`http://localhost:5000/api/contact/${msgId}/status`, {
+      const res = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:5000'}/api/contact/${msgId}/status`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -115,7 +115,7 @@ export default function DashboardPage() {
       });
       
       if (res.ok) {
-        const recRes = await fetch('http://localhost:5000/api/contact/received', {
+        const recRes = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:5000'}/api/contact/received`, {
           headers: { 'Authorization': `Bearer ${token}` }
         });
         if (recRes.ok) setReceivedMessages(await recRes.json());

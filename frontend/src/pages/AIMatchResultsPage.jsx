@@ -21,7 +21,7 @@ export default function AIMatchResultsPage() {
       try {
         setLoading(true);
         // Fetch Lost Item
-        const itemRes = await fetch(`http://localhost:5000/api/items/${id}`);
+        const itemRes = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:5000'}/api/items/${id}`);
         const itemData = await itemRes.json();
         
         if (itemRes.ok) {
@@ -37,7 +37,7 @@ export default function AIMatchResultsPage() {
         }
 
         // Fetch Matches
-        const matchesRes = await fetch(`http://localhost:5000/api/items/${id}/matches`);
+        const matchesRes = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:5000'}/api/items/${id}/matches`);
         const matchesData = await matchesRes.json();
 
         if (matchesRes.ok) {

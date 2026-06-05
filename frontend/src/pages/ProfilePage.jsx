@@ -17,7 +17,7 @@ export default function ProfilePage() {
       const fetchStats = async () => {
         try {
           const token = localStorage.getItem('token');
-          const res = await fetch('http://localhost:5000/api/items/myitems', {
+          const res = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:5000'}/api/items/myitems`, {
             headers: { 'Authorization': `Bearer ${token}` }
           });
           if (res.ok) {
