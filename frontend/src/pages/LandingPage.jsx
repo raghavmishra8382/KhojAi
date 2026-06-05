@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Sparkles, ShieldCheck, Bell, ArrowRight, FileText, UserCheck, Package, CheckCircle2, ChevronDown, Cpu, Headphones, MapPin, SearchCheck } from 'lucide-react';
+import { Sparkles, ShieldCheck, Bell, ArrowRight, FileText, UserCheck, Package, CheckCircle2, ChevronDown, Cpu, Headphones, MapPin, SearchCheck, Zap, Users, Smartphone } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 const AiDemoSection = () => {
@@ -10,14 +10,14 @@ const AiDemoSection = () => {
         <div className="inline-flex items-center gap-2 bg-indigo-50 text-indigo-600 px-4 py-1.5 rounded-full text-sm font-bold mb-4 border border-indigo-100">
           <Cpu size={16} className="animate-pulse" /> Live AI Demonstration
         </div>
-        <h2 className="text-4xl md:text-5xl font-extrabold text-gray-900 tracking-tight mb-4">Real-Time AI Matching</h2>
+        <h2 className="text-4xl md:text-5xl font-extrabold text-gray-900 dark:text-white tracking-tight mb-4">Real-Time AI Matching</h2>
         <p className="text-gray-500 max-w-2xl mx-auto text-[18px] leading-relaxed">Watch how our algorithm connects lost and found reports by analyzing thousands of data points instantly.</p>
       </div>
 
-      <div className="relative bg-white/60 backdrop-blur-xl border border-gray-100 rounded-[3rem] p-6 md:p-16 shadow-[0_20px_60px_rgba(0,0,0,0.05)] overflow-hidden flex flex-col md:flex-row items-center justify-between gap-8 md:gap-0">
+      <div className="relative bg-white dark:bg-gray-800/60 backdrop-blur-xl border border-gray-100 dark:border-gray-700 rounded-[3rem] p-6 md:p-16 shadow-[0_20px_60px_rgba(0,0,0,0.05)] overflow-hidden flex flex-col md:flex-row items-center justify-between gap-8 md:gap-0">
         
         {/* Subtle Background Glow inside the container */}
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-[300px] bg-gradient-to-r from-blue-100/50 via-indigo-100/50 to-purple-100/50 blur-[100px] -z-10"></div>
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-[300px] bg-gradient-to-r from-blue-100/50 via-indigo-100/50 to-purple-100/50 dark:from-blue-900/20 dark:via-indigo-900/20 dark:to-purple-900/20 blur-[100px] -z-10"></div>
         
         {/* Lost Item Card */}
         <motion.div 
@@ -25,22 +25,22 @@ const AiDemoSection = () => {
           whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8 }}
-          className="w-full md:w-[42%] bg-white rounded-3xl p-6 shadow-[0_10px_40px_rgba(0,0,0,0.08)] border border-gray-100 relative z-10 hover:-translate-y-2 transition-transform duration-500"
+          className="w-full md:w-[42%] bg-white dark:bg-gray-800 rounded-3xl p-6 shadow-[0_10px_40px_rgba(0,0,0,0.08)] border border-gray-100 dark:border-gray-700 relative z-10 hover:-translate-y-2 transition-transform duration-500"
         >
           <div className="flex items-center justify-between mb-5">
             <div className="bg-red-50 text-red-600 font-bold px-3 py-1 rounded-lg text-[13px] border border-red-100 shadow-sm">Reported Lost</div>
             <span className="text-gray-400 text-[13px] font-medium">2 mins ago</span>
           </div>
           <div className="flex items-start gap-4">
-            <div className="bg-gray-50 w-16 h-16 rounded-2xl flex items-center justify-center flex-shrink-0 border border-gray-100">
+            <div className="bg-gray-50 dark:bg-gray-900 w-16 h-16 rounded-2xl flex items-center justify-center flex-shrink-0 border border-gray-100 dark:border-gray-700">
               <Headphones size={28} className="text-gray-400" />
             </div>
             <div>
-              <h4 className="font-extrabold text-gray-900 text-xl tracking-tight">OnePlus Buds Pro</h4>
+              <h4 className="font-extrabold text-gray-900 dark:text-white text-xl tracking-tight">OnePlus Buds Pro</h4>
               <p className="text-gray-500 text-[14px] mt-1.5 leading-relaxed">Black Case, minor scratch on left side.</p>
             </div>
           </div>
-          <div className="mt-5 flex items-center gap-2 text-[14px] text-gray-500 font-medium bg-gray-50/80 p-3 rounded-xl border border-gray-100">
+          <div className="mt-5 flex items-center gap-2 text-[14px] text-gray-500 font-medium bg-gray-50 dark:bg-gray-900/80 p-3 rounded-xl border border-gray-100 dark:border-gray-700">
             <MapPin size={16} className="text-gray-400" /> Lost near Main Library
           </div>
         </motion.div>
@@ -63,7 +63,7 @@ const AiDemoSection = () => {
              transition={{ delay: 0.5, duration: 0.5, type: "spring" }}
              className="relative z-10 bg-gradient-to-br from-blue-500 via-indigo-500 to-purple-500 p-[2px] rounded-[1.2rem] shadow-[0_0_50px_rgba(99,102,241,0.4)]"
            >
-             <div className="bg-white px-6 py-4 rounded-[1.1rem] flex flex-col items-center min-w-[140px]">
+             <div className="bg-white dark:bg-gray-800 px-6 py-4 rounded-[1.1rem] flex flex-col items-center min-w-[140px]">
                <SearchCheck size={28} className="text-indigo-500 mb-2" />
                <div className="text-[11px] font-extrabold text-gray-400 uppercase tracking-widest mb-0.5">AI Match Score</div>
                <div className="text-4xl font-black text-transparent bg-clip-text bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600">
@@ -79,22 +79,22 @@ const AiDemoSection = () => {
           whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8 }}
-          className="w-full md:w-[42%] bg-white rounded-3xl p-6 shadow-[0_10px_40px_rgba(0,0,0,0.08)] border border-gray-100 relative z-10 hover:-translate-y-2 transition-transform duration-500"
+          className="w-full md:w-[42%] bg-white dark:bg-gray-800 rounded-3xl p-6 shadow-[0_10px_40px_rgba(0,0,0,0.08)] border border-gray-100 dark:border-gray-700 relative z-10 hover:-translate-y-2 transition-transform duration-500"
         >
           <div className="flex items-center justify-between mb-5">
             <div className="bg-green-50 text-green-600 font-bold px-3 py-1 rounded-lg text-[13px] border border-green-100 shadow-sm">Reported Found</div>
             <span className="text-gray-400 text-[13px] font-medium">Just now</span>
           </div>
           <div className="flex items-start gap-4">
-            <div className="bg-gray-50 w-16 h-16 rounded-2xl flex items-center justify-center flex-shrink-0 border border-gray-100">
+            <div className="bg-gray-50 dark:bg-gray-900 w-16 h-16 rounded-2xl flex items-center justify-center flex-shrink-0 border border-gray-100 dark:border-gray-700">
               <Headphones size={28} className="text-gray-400" />
             </div>
             <div>
-              <h4 className="font-extrabold text-gray-900 text-xl tracking-tight">OnePlus Earbuds</h4>
+              <h4 className="font-extrabold text-gray-900 dark:text-white text-xl tracking-tight">OnePlus Earbuds</h4>
               <p className="text-gray-500 text-[14px] mt-1.5 leading-relaxed">Black Charging Case, found on bench.</p>
             </div>
           </div>
-          <div className="mt-5 flex items-center gap-2 text-[14px] text-gray-500 font-medium bg-gray-50/80 p-3 rounded-xl border border-gray-100">
+          <div className="mt-5 flex items-center gap-2 text-[14px] text-gray-500 font-medium bg-gray-50 dark:bg-gray-900/80 p-3 rounded-xl border border-gray-100 dark:border-gray-700">
             <MapPin size={16} className="text-gray-400" /> Found near Main Library
           </div>
         </motion.div>
@@ -127,9 +127,9 @@ const FaqSection = () => {
   const [openIndex, setOpenIndex] = useState(0);
 
   return (
-    <div className="w-full max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
+    <div className="w-full max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-24 relative z-10">
       <div className="text-center mb-16">
-        <h2 className="text-3xl md:text-5xl font-extrabold text-gray-900 tracking-tight mb-4">Frequently Asked Questions</h2>
+        <h2 className="text-3xl md:text-5xl font-extrabold text-gray-900 dark:text-white tracking-tight mb-4">Frequently Asked Questions</h2>
         <p className="text-gray-500 max-w-xl mx-auto text-[18px]">Everything you need to know about using KhojAI.</p>
       </div>
 
@@ -137,16 +137,16 @@ const FaqSection = () => {
         {faqs.map((faq, index) => (
           <div 
             key={index} 
-            className={`border rounded-2xl overflow-hidden transition-all duration-300 ${openIndex === index ? 'border-indigo-200 bg-indigo-50/30 shadow-[0_10px_30px_rgba(99,102,241,0.05)]' : 'border-gray-100 bg-white hover:border-gray-200 hover:shadow-[0_5px_15px_rgba(0,0,0,0.03)]'}`}
+            className={`border rounded-2xl overflow-hidden transition-all duration-300 ${openIndex === index ? 'border-indigo-200 bg-indigo-50/30 shadow-[0_10px_30px_rgba(99,102,241,0.05)]' : 'border-gray-100 dark:border-gray-700 bg-white dark:bg-gray-800 hover:border-gray-200 dark:border-gray-600 hover:shadow-[0_5px_15px_rgba(0,0,0,0.03)]'}`}
           >
             <button 
               className="w-full flex items-center justify-between p-6 text-left outline-none"
               onClick={() => setOpenIndex(openIndex === index ? -1 : index)}
             >
-              <span className={`font-bold text-[17px] ${openIndex === index ? 'text-indigo-600' : 'text-gray-900'}`}>
+              <span className={`font-bold text-[17px] ${openIndex === index ? 'text-indigo-600' : 'text-gray-900 dark:text-white'}`}>
                 {faq.question}
               </span>
-              <div className={`w-8 h-8 rounded-full flex items-center justify-center transition-colors duration-300 ${openIndex === index ? 'bg-indigo-100 text-indigo-600' : 'bg-gray-50 text-gray-400'}`}>
+              <div className={`w-8 h-8 rounded-full flex items-center justify-center transition-colors duration-300 ${openIndex === index ? 'bg-indigo-100 text-indigo-600' : 'bg-gray-50 dark:bg-gray-900 text-gray-400'}`}>
                 <ChevronDown 
                   className={`transition-transform duration-300 ${openIndex === index ? 'rotate-180' : ''}`} 
                   size={18} strokeWidth={2.5}
@@ -154,9 +154,9 @@ const FaqSection = () => {
               </div>
             </button>
             <div 
-              className={`px-6 overflow-hidden transition-all duration-500 ease-in-out ${openIndex === index ? 'max-h-48 pb-6 opacity-100' : 'max-h-0 opacity-0'}`}
+              className={`px-6 overflow-hidden transition-all duration-500 ease-in-out ${openIndex === index ? 'max-h-[500px] pb-6 opacity-100' : 'max-h-0 opacity-0'}`}
             >
-              <p className="text-gray-600 leading-relaxed text-[15px] max-w-3xl">
+              <p className="text-gray-600 dark:text-gray-400 leading-relaxed text-[15px] max-w-3xl">
                 {faq.answer}
               </p>
             </div>
@@ -257,27 +257,27 @@ export default function LandingPage() {
             variants={containerVariants}
             className="grid grid-cols-1 sm:grid-cols-3 gap-4 max-w-[600px] mx-auto lg:mx-0"
           >
-            <motion.div variants={itemVariants} className="bg-white/60 backdrop-blur-lg border border-white/80 p-4 rounded-2xl shadow-sm hover:shadow-md transition-shadow group">
+            <motion.div variants={itemVariants} className="bg-white dark:bg-gray-800/60 backdrop-blur-lg border border-white dark:border-gray-800/80 p-4 rounded-2xl shadow-sm hover:shadow-md transition-shadow group">
               <div className="flex items-center gap-3 mb-1">
                 <div className="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 group-hover:scale-110 transition-transform"><ShieldCheck size={16}/></div>
-                <div className="text-2xl font-extrabold text-gray-900">10k+</div>
+                <div className="text-2xl font-extrabold text-gray-900 dark:text-white">10k+</div>
               </div>
               <div className="text-xs font-bold text-gray-500 uppercase tracking-wider mt-2">Items Recovered</div>
             </motion.div>
             
-            <motion.div variants={itemVariants} className="bg-white/60 backdrop-blur-lg border border-white/80 p-4 rounded-2xl shadow-sm hover:shadow-md transition-shadow group relative overflow-hidden">
+            <motion.div variants={itemVariants} className="bg-white dark:bg-gray-800/60 backdrop-blur-lg border border-white dark:border-gray-800/80 p-4 rounded-2xl shadow-sm hover:shadow-md transition-shadow group relative overflow-hidden">
               <div className="absolute inset-0 bg-gradient-to-br from-green-400/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
               <div className="flex items-center gap-3 mb-1 relative z-10">
                 <div className="w-8 h-8 rounded-full bg-green-100 flex items-center justify-center text-green-600 group-hover:scale-110 transition-transform"><Sparkles size={16}/></div>
-                <div className="text-2xl font-extrabold text-gray-900">95%</div>
+                <div className="text-2xl font-extrabold text-gray-900 dark:text-white">95%</div>
               </div>
               <div className="text-xs font-bold text-gray-500 uppercase tracking-wider mt-2 relative z-10">Match Accuracy</div>
             </motion.div>
 
-            <motion.div variants={itemVariants} className="bg-white/60 backdrop-blur-lg border border-white/80 p-4 rounded-2xl shadow-sm hover:shadow-md transition-shadow group">
+            <motion.div variants={itemVariants} className="bg-white dark:bg-gray-800/60 backdrop-blur-lg border border-white dark:border-gray-800/80 p-4 rounded-2xl shadow-sm hover:shadow-md transition-shadow group">
               <div className="flex items-center gap-3 mb-1">
                 <div className="w-8 h-8 rounded-full bg-purple-100 flex items-center justify-center text-purple-600 group-hover:scale-110 transition-transform"><Bell size={16}/></div>
-                <div className="text-2xl font-extrabold text-gray-900">50+</div>
+                <div className="text-2xl font-extrabold text-gray-900 dark:text-white">50+</div>
               </div>
               <div className="text-xs font-bold text-gray-500 uppercase tracking-wider mt-2">Campuses</div>
             </motion.div>
@@ -296,14 +296,14 @@ export default function LandingPage() {
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: 0.8, duration: 0.5 }}
-            className="absolute -top-12 -right-4 bg-white/90 backdrop-blur-xl border border-cyan-100 p-3 rounded-2xl shadow-[0_15px_30px_rgba(6,182,212,0.15)] z-20 flex items-center gap-3"
+            className="absolute -top-12 -right-4 bg-white dark:bg-gray-800/90 backdrop-blur-xl border border-cyan-100 p-3 rounded-2xl shadow-[0_15px_30px_rgba(6,182,212,0.15)] z-20 flex items-center gap-3"
           >
             <div className="relative flex items-center justify-center w-8 h-8 bg-cyan-50 rounded-full">
               <Sparkles size={16} className="text-cyan-500" />
               <span className="absolute top-0 right-0 w-2 h-2 bg-cyan-400 rounded-full animate-ping"></span>
             </div>
             <div>
-              <div className="text-xs font-bold text-gray-900">AI Monitoring Active</div>
+              <div className="text-xs font-bold text-gray-900 dark:text-white">AI Monitoring Active</div>
               <div className="text-[10px] text-gray-500">Scanning 10,000+ reports...</div>
             </div>
           </motion.div>
@@ -312,7 +312,7 @@ export default function LandingPage() {
           <div className="absolute inset-0 bg-gradient-brand rounded-[2.5rem] transform rotate-3 scale-105 opacity-30 blur-2xl"></div>
           
           {/* Main Mockup Card */}
-          <div className="relative bg-white/70 backdrop-blur-3xl border border-white p-6 rounded-[2.5rem] shadow-[0_20px_50px_rgba(0,0,0,0.15)] overflow-hidden">
+          <div className="relative bg-white dark:bg-gray-800/70 backdrop-blur-3xl border border-white dark:border-gray-800 p-6 rounded-[2.5rem] shadow-[0_20px_50px_rgba(0,0,0,0.15)] overflow-hidden">
             
             {/* Mockup Top Nav */}
             <div className="flex justify-between items-center mb-8 px-2">
@@ -328,24 +328,24 @@ export default function LandingPage() {
             <div className="flex flex-col gap-5">
               
               {/* Highlighted AI Match Card */}
-              <div className="bg-white p-4 rounded-2xl flex gap-4 items-center shadow-[0_10px_25px_rgba(0,82,255,0.15)] border border-blue-100 relative transform -translate-x-2 z-10 hover:scale-105 transition-transform duration-300">
+              <div className="bg-white dark:bg-gray-800 p-4 rounded-2xl flex gap-4 items-center shadow-[0_10px_25px_rgba(0,82,255,0.15)] border border-blue-100 relative transform -translate-x-2 z-10 hover:scale-105 transition-transform duration-300">
                 <div className="absolute -inset-1 bg-gradient-to-r from-cyan-400 to-blue-500 rounded-2xl blur-lg opacity-20 -z-10"></div>
                 <div className="absolute -left-3 top-1/2 -translate-y-1/2 w-1.5 h-12 bg-[#0052FF] rounded-r-md"></div>
-                <div className="w-20 h-20 bg-gray-100 rounded-xl flex-shrink-0 flex items-center justify-center overflow-hidden border border-gray-200">
-                  <img src="https://images.unsplash.com/photo-1628156100232-a5e228d70659?auto=format&fit=crop&q=80&w=200&h=200" alt="Wallet" className="w-full h-full object-cover" />
+                <div className="w-20 h-20 bg-gray-100 rounded-xl flex-shrink-0 flex items-center justify-center overflow-hidden border border-gray-200 dark:border-gray-600">
+                  <img src="https://images.unsplash.com/photo-1606220588913-b3aacb4d2f46?auto=format&fit=crop&q=80&w=200&h=200" alt="Earbuds" className="w-full h-full object-cover" />
                 </div>
                 <div>
                   <div className="h-5 bg-gray-800 rounded-md w-32 mb-2"></div>
                   <div className="h-3 bg-gray-300 rounded-md w-24 mb-3"></div>
-                  <div className="inline-flex items-center gap-1.5 bg-gradient-to-r from-blue-50 to-cyan-50 text-blue-700 text-[11px] font-bold px-3 py-1.5 rounded-md border border-blue-200 shadow-sm animate-pulse">
+                  <div className="inline-flex items-center gap-1.5 bg-gradient-to-r from-blue-50 to-cyan-50 dark:from-[#0F172A] dark:to-[#0B1120] text-blue-700 text-[11px] font-bold px-3 py-1.5 rounded-md border border-blue-200 shadow-sm animate-pulse">
                     <Sparkles size={12} className="text-[#00B4D8]"/> AI Match: 98%
                   </div>
                 </div>
               </div>
 
               {/* Secondary Card */}
-              <div className="bg-white/80 p-4 rounded-2xl flex gap-4 items-center shadow-sm opacity-80 backdrop-blur-md border border-white">
-                <div className="w-16 h-16 bg-gray-100 rounded-xl flex-shrink-0 overflow-hidden border border-gray-200">
+              <div className="bg-white dark:bg-gray-800/80 p-4 rounded-2xl flex gap-4 items-center shadow-sm opacity-80 backdrop-blur-md border border-white dark:border-gray-800">
+                <div className="w-16 h-16 bg-gray-100 rounded-xl flex-shrink-0 overflow-hidden border border-gray-200 dark:border-gray-600">
                    <img src="https://images.unsplash.com/photo-1588423771073-b8903fbb85b5?auto=format&fit=crop&q=80&w=200&h=200" alt="Airpods" className="w-full h-full object-cover grayscale opacity-80" />
                 </div>
                 <div className="flex-grow">
@@ -361,14 +361,14 @@ export default function LandingPage() {
           <motion.div 
             animate={{ y: [0, 10, 0] }}
             transition={{ duration: 4, repeat: Infinity, ease: "easeInOut", delay: 1 }}
-            className="absolute -bottom-6 -left-6 bg-white/90 backdrop-blur-xl p-4 rounded-2xl shadow-[0_20px_40px_rgba(0,0,0,0.15)] flex items-center gap-4 border border-white z-20"
+            className="absolute -bottom-6 -left-6 bg-white dark:bg-gray-800/90 backdrop-blur-xl p-4 rounded-2xl shadow-[0_20px_40px_rgba(0,0,0,0.15)] flex items-center gap-4 border border-white dark:border-gray-800 z-20"
           >
             <div className="bg-green-100 p-3 rounded-xl shadow-inner relative">
               <div className="absolute inset-0 bg-green-400 blur-md opacity-30"></div>
               <ShieldCheck className="text-green-600 relative z-10" size={24} />
             </div>
             <div>
-              <div className="text-[15px] font-extrabold text-gray-900">Item Recovered</div>
+              <div className="text-[15px] font-extrabold text-gray-900 dark:text-white">Item Recovered</div>
               <div className="text-[12px] font-semibold text-green-600">Verified Match</div>
             </div>
           </motion.div>
@@ -382,31 +382,42 @@ export default function LandingPage() {
         </svg>
       </div>
 
-      {/* Features Section */}
-      <div className="w-full bg-white/40 backdrop-blur-3xl pt-8 pb-16 flex flex-col items-center border-t border-white/50 px-4 relative z-10">
+      {/* Features Section - Premium Redesign */}
+      <div className="w-full bg-white dark:bg-gray-800/40 backdrop-blur-3xl pt-12 pb-24 flex flex-col items-center border-t border-white dark:border-gray-800/50 px-4 relative z-10 overflow-hidden">
         
-        {/* Subtle Background Elements */}
-        <div className="absolute inset-0 bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] [background-size:24px_24px] opacity-30"></div>
-        <div className="absolute top-1/2 left-1/4 w-96 h-96 bg-blue-300/10 rounded-full blur-[100px] pointer-events-none"></div>
-        <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-green-300/10 rounded-full blur-[100px] pointer-events-none"></div>
+        {/* Modern Background Elements */}
+        <div className="absolute inset-0 bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] dark:bg-[radial-gradient(#1f2937_1px,transparent_1px)] [background-size:30px_30px] opacity-40"></div>
+        <div className="absolute top-20 left-0 w-[500px] h-[500px] bg-blue-400/10 dark:bg-blue-600/10 rounded-full blur-[120px] pointer-events-none -translate-x-1/2"></div>
+        <div className="absolute bottom-20 right-0 w-[500px] h-[500px] bg-emerald-400/10 dark:bg-emerald-600/10 rounded-full blur-[120px] pointer-events-none translate-x-1/2"></div>
+
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 0.6 }}
+          className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-50 dark:bg-blue-900/20 border border-blue-100 dark:border-blue-800/50 text-blue-600 dark:text-blue-400 font-bold text-sm mb-6 relative z-10 shadow-sm"
+        >
+          <Sparkles size={16} className="text-blue-500" /> Platform Features
+        </motion.div>
 
         <motion.h2 
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-100px" }}
-          transition={{ duration: 0.6 }}
-          className="text-[36px] font-extrabold text-[#111827] mb-4 tracking-tight text-center relative z-10"
+          transition={{ duration: 0.6, delay: 0.1 }}
+          className="text-[40px] md:text-[52px] font-extrabold text-[#111827] dark:text-white mb-6 tracking-tight text-center relative z-10 leading-[1.1]"
         >
           Why Choose <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-cyan-500">KhojAI</span>?
         </motion.h2>
+
         <motion.p 
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-100px" }}
-          transition={{ duration: 0.6, delay: 0.1 }}
-          className="text-[#6B7280] text-[17px] mb-12 text-center max-w-[600px] font-medium leading-[1.8] relative z-10"
+          transition={{ duration: 0.6, delay: 0.2 }}
+          className="text-[#6B7280] dark:text-gray-400 text-[18px] mb-16 text-center max-w-[650px] font-medium leading-[1.8] relative z-10"
         >
-          We've built the smartest, most secure platform specifically tailored for campus communities to reunite students with their belongings.
+          We've engineered a next-generation platform designed specifically for campus communities, utilizing artificial intelligence to reunite students with their belongings instantly.
         </motion.p>
         
         <motion.div 
@@ -414,69 +425,97 @@ export default function LandingPage() {
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: "-100px" }}
-          className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl w-full items-stretch relative z-10"
+          className="grid grid-cols-1 md:grid-cols-6 gap-6 max-w-[1200px] w-full items-stretch relative z-10"
         >
-          {/* AI Card */}
-          <motion.div variants={itemVariants} className="flex flex-col items-start p-8 rounded-3xl bg-white/80 backdrop-blur-md border-[2px] border-blue-100/50 shadow-lg hover:shadow-[0_20px_50px_rgba(0,82,255,0.2)] hover:-translate-y-2 hover:border-blue-300 transition-all duration-500 group relative overflow-hidden h-full cursor-pointer">
-            <div className="absolute inset-0 bg-gradient-to-br from-blue-50/80 via-transparent to-cyan-50/80 opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-sm"></div>
+          {/* Card 1: AI (Wide - 60%) */}
+          <motion.div variants={itemVariants} className="md:col-span-4 flex flex-col items-start p-8 md:p-10 rounded-[2rem] bg-white dark:bg-[#1E293B]/80 backdrop-blur-xl border border-gray-100 dark:border-gray-700 hover:border-blue-300 dark:hover:border-blue-500/50 shadow-sm hover:shadow-[0_20px_60px_rgba(37,99,235,0.12)] hover:-translate-y-1 transition-all duration-500 group relative overflow-hidden h-full">
+            <div className="absolute inset-0 bg-gradient-to-br from-blue-50/50 to-transparent dark:from-blue-900/10 dark:to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"></div>
             
-            <div className="bg-gradient-to-br from-blue-100 to-cyan-100 p-4 rounded-2xl mb-5 shadow-inner border border-white relative z-10 group-hover:bg-gradient-to-br group-hover:from-blue-600 group-hover:to-cyan-500 transition-colors duration-500">
-              <Sparkles className="text-[#0052FF] group-hover:text-white group-hover:animate-pulse transition-colors" size={32} />
+            <div className="w-16 h-16 rounded-2xl bg-blue-50 dark:bg-blue-900/30 flex items-center justify-center mb-6 border border-blue-100 dark:border-blue-800/50 group-hover:bg-blue-600 group-hover:border-blue-500 transition-colors duration-500 shadow-inner">
+              <Sparkles className="text-blue-600 dark:text-blue-400 group-hover:text-white transition-colors" size={28} />
             </div>
             
-            <h3 className="text-[21px] font-extrabold text-gray-900 mb-2 relative z-10 group-hover:text-[#0052FF] transition-colors">AI-Powered Matching</h3>
-            
-            <div className="inline-flex items-center gap-1.5 bg-blue-50 text-blue-600 text-[11px] font-bold px-3 py-1.5 rounded-full mb-3 relative z-10 border border-blue-100">
-              <Sparkles size={12} /> 98% Match Accuracy
-            </div>
-
-            <p className="text-[#4B5563] leading-[1.7] text-[15px] font-medium relative z-10 max-w-[95%]">
-              Our smart algorithms instantly cross-reference reported lost items with found inventory using image recognition and detailed descriptors.
+            <h3 className="text-[24px] font-extrabold text-gray-900 dark:text-white mb-3">AI-Powered Semantic Matching</h3>
+            <p className="text-gray-500 dark:text-gray-400 leading-[1.7] text-[16px] font-medium max-w-2xl">
+              Smart algorithms instantly cross-reference lost items with found inventory using natural language processing. It understands context—so a "black wallet" matches a "dark leather billfold."
             </p>
           </motion.div>
 
-          {/* Secure Card */}
-          <motion.div variants={itemVariants} className="flex flex-col items-start p-8 rounded-3xl bg-white/80 backdrop-blur-md border border-slate-100 shadow-lg hover:shadow-[0_20px_50px_rgba(0,200,83,0.15)] hover:-translate-y-2 hover:border-green-300 transition-all duration-500 group relative overflow-hidden h-full cursor-pointer">
-            <div className="absolute inset-0 bg-gradient-to-br from-green-50/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+          {/* Card 2: Security (Narrow - 40%) */}
+          <motion.div variants={itemVariants} className="md:col-span-2 flex flex-col items-start p-8 rounded-[2rem] bg-white dark:bg-[#1E293B]/80 backdrop-blur-xl border border-gray-100 dark:border-gray-700 hover:border-emerald-300 dark:hover:border-emerald-500/50 shadow-sm hover:shadow-[0_20px_60px_rgba(16,185,129,0.12)] hover:-translate-y-1 transition-all duration-500 group relative overflow-hidden h-full">
+            <div className="absolute inset-0 bg-gradient-to-br from-emerald-50/50 to-transparent dark:from-emerald-900/10 dark:to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"></div>
             
-            <div className="bg-gradient-to-br from-green-50 to-emerald-100 p-4 rounded-2xl mb-5 shadow-inner border border-white relative z-10 group-hover:bg-gradient-to-br group-hover:from-green-500 group-hover:to-emerald-500 transition-colors duration-500">
-              <ShieldCheck className="text-[#00C853] group-hover:text-white group-hover:rotate-12 transition-all duration-300" size={32} />
+            <div className="w-16 h-16 rounded-2xl bg-emerald-50 dark:bg-emerald-900/30 flex items-center justify-center mb-6 border border-emerald-100 dark:border-emerald-800/50 group-hover:bg-emerald-500 group-hover:border-emerald-400 transition-colors duration-500 shadow-inner">
+              <ShieldCheck className="text-emerald-600 dark:text-emerald-400 group-hover:text-white transition-colors" size={28} />
             </div>
             
-            <h3 className="text-[20px] font-extrabold text-[#111827] mb-2 relative z-10">Secure & Verified</h3>
-            
-            <div className="inline-flex items-center gap-1.5 bg-green-50 text-green-700 text-[11px] font-bold px-3 py-1.5 rounded-full mb-3 relative z-10 border border-green-100">
-              <ShieldCheck size={12} /> Verified Users Only
-            </div>
-
-            <p className="text-[#4B5563] leading-[1.7] text-[15px] font-medium relative z-10 max-w-[95%]">
-              Only verified university students and staff can access the network, ensuring a safe and trustworthy community environment.
+            <h3 className="text-[22px] font-extrabold text-gray-900 dark:text-white mb-3">Secure & Verified</h3>
+            <p className="text-gray-500 dark:text-gray-400 leading-[1.7] text-[15px] font-medium">
+              Strictly authenticated network. Only verified university students and faculty can access the community platform.
             </p>
           </motion.div>
 
-          {/* Alerts Card */}
-          <motion.div variants={itemVariants} className="flex flex-col items-start p-8 rounded-3xl bg-white/80 backdrop-blur-md border border-slate-100 shadow-lg hover:shadow-[0_20px_50px_rgba(139,92,246,0.15)] hover:-translate-y-2 hover:border-purple-300 transition-all duration-500 group relative overflow-hidden h-full cursor-pointer">
-            <div className="absolute inset-0 bg-gradient-to-br from-purple-50/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+          {/* Card 3: Lightning Fast (Narrow - 40%) */}
+          <motion.div variants={itemVariants} className="md:col-span-2 flex flex-col items-start p-8 rounded-[2rem] bg-white dark:bg-[#1E293B]/80 backdrop-blur-xl border border-gray-100 dark:border-gray-700 hover:border-amber-300 dark:hover:border-amber-500/50 shadow-sm hover:shadow-[0_20px_60px_rgba(245,158,11,0.12)] hover:-translate-y-1 transition-all duration-500 group relative overflow-hidden h-full">
+            <div className="absolute inset-0 bg-gradient-to-br from-amber-50/50 to-transparent dark:from-amber-900/10 dark:to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"></div>
             
-            <div className="bg-gradient-to-br from-purple-50 to-indigo-100 p-4 rounded-2xl mb-5 shadow-inner border border-white relative z-10 group-hover:bg-gradient-to-br group-hover:from-purple-500 group-hover:to-indigo-500 transition-colors duration-500">
-              <Bell className="text-[#8B5CF6] group-hover:text-white group-hover:animate-bounce transition-colors" size={32} />
+            <div className="w-16 h-16 rounded-2xl bg-amber-50 dark:bg-amber-900/30 flex items-center justify-center mb-6 border border-amber-100 dark:border-amber-800/50 group-hover:bg-amber-500 group-hover:border-amber-400 transition-colors duration-500 shadow-inner">
+              <Zap className="text-amber-600 dark:text-amber-400 group-hover:text-white transition-colors" size={28} />
             </div>
             
-            <h3 className="text-[20px] font-extrabold text-[#111827] mb-2 relative z-10">Instant Alerts</h3>
-            
-            <div className="inline-flex items-center gap-1.5 bg-purple-50 text-purple-700 text-[11px] font-bold px-3 py-1.5 rounded-full mb-3 relative z-10 border border-purple-100">
-              <Bell size={12} /> Real-Time Notifications
-            </div>
-
-            <p className="text-[#4B5563] leading-[1.7] text-[15px] font-medium relative z-10 max-w-[95%]">
-              Set up keyword alerts and get instantly notified on your phone or email the second an item matching your description is found.
+            <h3 className="text-[22px] font-extrabold text-gray-900 dark:text-white mb-3">Lightning Fast</h3>
+            <p className="text-gray-500 dark:text-gray-400 leading-[1.7] text-[15px] font-medium">
+              Report an item in under 30 seconds. Our streamlined interface guarantees zero friction during high-stress situations.
             </p>
           </motion.div>
+
+          {/* Card 4: Real-time Alerts (Wide - 60%) */}
+          <motion.div variants={itemVariants} className="md:col-span-4 flex flex-col items-start p-8 md:p-10 rounded-[2rem] bg-white dark:bg-[#1E293B]/80 backdrop-blur-xl border border-gray-100 dark:border-gray-700 hover:border-purple-300 dark:hover:border-purple-500/50 shadow-sm hover:shadow-[0_20px_60px_rgba(139,92,246,0.12)] hover:-translate-y-1 transition-all duration-500 group relative overflow-hidden h-full">
+            <div className="absolute inset-0 bg-gradient-to-br from-purple-50/50 to-transparent dark:from-purple-900/10 dark:to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"></div>
+            
+            <div className="w-16 h-16 rounded-2xl bg-purple-50 dark:bg-purple-900/30 flex items-center justify-center mb-6 border border-purple-100 dark:border-purple-800/50 group-hover:bg-purple-500 group-hover:border-purple-400 transition-colors duration-500 shadow-inner">
+              <Bell className="text-purple-600 dark:text-purple-400 group-hover:text-white transition-colors" size={28} />
+            </div>
+            
+            <h3 className="text-[24px] font-extrabold text-gray-900 dark:text-white mb-3">Real-time Smart Alerts</h3>
+            <p className="text-gray-500 dark:text-gray-400 leading-[1.7] text-[16px] font-medium max-w-2xl">
+              Don't constantly refresh the page. Set up a background monitor and get instantly notified via email or push notification the exact moment a matching item is reported found.
+            </p>
+          </motion.div>
+
+          {/* Card 5: Community Driven (Half - 50%) */}
+          <motion.div variants={itemVariants} className="md:col-span-3 flex flex-col items-start p-8 rounded-[2rem] bg-white dark:bg-[#1E293B]/80 backdrop-blur-xl border border-gray-100 dark:border-gray-700 hover:border-cyan-300 dark:hover:border-cyan-500/50 shadow-sm hover:shadow-[0_20px_60px_rgba(6,182,212,0.12)] hover:-translate-y-1 transition-all duration-500 group relative overflow-hidden h-full">
+            <div className="absolute inset-0 bg-gradient-to-br from-cyan-50/50 to-transparent dark:from-cyan-900/10 dark:to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"></div>
+            
+            <div className="w-16 h-16 rounded-2xl bg-cyan-50 dark:bg-cyan-900/30 flex items-center justify-center mb-6 border border-cyan-100 dark:border-cyan-800/50 group-hover:bg-cyan-500 group-hover:border-cyan-400 transition-colors duration-500 shadow-inner">
+              <Users className="text-cyan-600 dark:text-cyan-400 group-hover:text-white transition-colors" size={28} />
+            </div>
+            
+            <h3 className="text-[22px] font-extrabold text-gray-900 dark:text-white mb-3">Community Driven</h3>
+            <p className="text-gray-500 dark:text-gray-400 leading-[1.7] text-[15px] font-medium">
+              Built on the power of crowd-sourcing. Connect directly with honest finders on campus without any middlemen.
+            </p>
+          </motion.div>
+
+          {/* Card 6: Mobile Optimized (Half - 50%) */}
+          <motion.div variants={itemVariants} className="md:col-span-3 flex flex-col items-start p-8 rounded-[2rem] bg-white dark:bg-[#1E293B]/80 backdrop-blur-xl border border-gray-100 dark:border-gray-700 hover:border-rose-300 dark:hover:border-rose-500/50 shadow-sm hover:shadow-[0_20px_60px_rgba(244,63,94,0.12)] hover:-translate-y-1 transition-all duration-500 group relative overflow-hidden h-full">
+            <div className="absolute inset-0 bg-gradient-to-br from-rose-50/50 to-transparent dark:from-rose-900/10 dark:to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"></div>
+            
+            <div className="w-16 h-16 rounded-2xl bg-rose-50 dark:bg-rose-900/30 flex items-center justify-center mb-6 border border-rose-100 dark:border-rose-800/50 group-hover:bg-rose-500 group-hover:border-rose-400 transition-colors duration-500 shadow-inner">
+              <Smartphone className="text-rose-600 dark:text-rose-400 group-hover:text-white transition-colors" size={28} />
+            </div>
+            
+            <h3 className="text-[22px] font-extrabold text-gray-900 dark:text-white mb-3">Mobile Optimized</h3>
+            <p className="text-gray-500 dark:text-gray-400 leading-[1.7] text-[15px] font-medium">
+              Seamlessly works on any device. Snap a photo of a found item and upload it straight from your phone camera.
+            </p>
+          </motion.div>
+
         </motion.div>
       </div>
 
       {/* How KhojAI Works Section */}
-      <div className="w-full bg-white pt-24 pb-32 flex flex-col items-center px-4 relative z-10 overflow-hidden">
+      <div className="w-full bg-white dark:bg-gray-800 pt-24 pb-32 flex flex-col items-center px-4 relative z-10 overflow-hidden">
         <motion.h2 
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -494,7 +533,7 @@ export default function LandingPage() {
             <motion.div 
               animate={{ left: ["0%", "100%"], opacity: [0, 1, 0] }}
               transition={{ duration: 4, repeat: Infinity, ease: "linear" }}
-              className="absolute top-1/2 -translate-y-1/2 w-4 h-4 bg-white shadow-[0_0_10px_rgba(0,82,255,0.5)] rounded-full border-2 border-[#0052FF]"
+              className="absolute top-1/2 -translate-y-1/2 w-4 h-4 bg-white dark:bg-gray-800 shadow-[0_0_10px_rgba(0,82,255,0.5)] rounded-full border-2 border-[#0052FF]"
             ></motion.div>
           </div>
           
@@ -507,41 +546,41 @@ export default function LandingPage() {
           >
             {/* Step 1 */}
             <motion.div variants={itemVariants} className="flex flex-col items-center text-center group">
-              <div className="w-24 h-24 rounded-full bg-white border-[4px] border-blue-50 shadow-xl flex items-center justify-center mb-6 group-hover:scale-110 group-hover:border-blue-200 group-hover:shadow-[0_10px_30px_rgba(0,82,255,0.15)] transition-all duration-300 relative z-10">
+              <div className="w-24 h-24 rounded-full bg-white dark:bg-gray-800 border-[4px] border-blue-50 shadow-xl flex items-center justify-center mb-6 group-hover:scale-110 group-hover:border-blue-200 group-hover:shadow-[0_10px_30px_rgba(0,82,255,0.15)] transition-all duration-300 relative z-10">
                 <FileText className="text-blue-500 group-hover:text-blue-600 transition-colors" size={36} strokeWidth={1.5} />
-                <div className="absolute -top-2 -right-2 w-8 h-8 rounded-full bg-blue-600 text-white font-bold flex items-center justify-center text-sm shadow-md border-2 border-white">1</div>
+                <div className="absolute -top-2 -right-2 w-8 h-8 rounded-full bg-blue-600 text-white font-bold flex items-center justify-center text-sm shadow-md border-2 border-white dark:border-gray-800">1</div>
               </div>
-              <h3 className="text-[19px] font-extrabold text-gray-900 mb-2">Report Item</h3>
+              <h3 className="text-[19px] font-extrabold text-gray-900 dark:text-white mb-2">Report Item</h3>
               <p className="text-gray-500 text-[15px] font-medium max-w-[220px] leading-relaxed">Quickly log the lost or found item with details and images.</p>
             </motion.div>
 
             {/* Step 2 */}
             <motion.div variants={itemVariants} className="flex flex-col items-center text-center group">
-              <div className="w-24 h-24 rounded-full bg-white border-[4px] border-indigo-50 shadow-xl flex items-center justify-center mb-6 group-hover:scale-110 group-hover:border-indigo-200 group-hover:shadow-[0_10px_30px_rgba(99,102,241,0.15)] transition-all duration-300 relative z-10">
+              <div className="w-24 h-24 rounded-full bg-white dark:bg-gray-800 border-[4px] border-indigo-50 shadow-xl flex items-center justify-center mb-6 group-hover:scale-110 group-hover:border-indigo-200 group-hover:shadow-[0_10px_30px_rgba(99,102,241,0.15)] transition-all duration-300 relative z-10">
                 <Sparkles className="text-indigo-500 group-hover:text-indigo-600 transition-colors" size={36} strokeWidth={1.5} />
-                <div className="absolute -top-2 -right-2 w-8 h-8 rounded-full bg-indigo-600 text-white font-bold flex items-center justify-center text-sm shadow-md border-2 border-white">2</div>
+                <div className="absolute -top-2 -right-2 w-8 h-8 rounded-full bg-indigo-600 text-white font-bold flex items-center justify-center text-sm shadow-md border-2 border-white dark:border-gray-800">2</div>
               </div>
-              <h3 className="text-[19px] font-extrabold text-gray-900 mb-2">AI Finds Matches</h3>
+              <h3 className="text-[19px] font-extrabold text-gray-900 dark:text-white mb-2">AI Finds Matches</h3>
               <p className="text-gray-500 text-[15px] font-medium max-w-[220px] leading-relaxed">Our algorithm instantly scans the database for high-probability matches.</p>
             </motion.div>
 
             {/* Step 3 */}
             <motion.div variants={itemVariants} className="flex flex-col items-center text-center group">
-              <div className="w-24 h-24 rounded-full bg-white border-[4px] border-purple-50 shadow-xl flex items-center justify-center mb-6 group-hover:scale-110 group-hover:border-purple-200 group-hover:shadow-[0_10px_30px_rgba(168,85,247,0.15)] transition-all duration-300 relative z-10">
+              <div className="w-24 h-24 rounded-full bg-white dark:bg-gray-800 border-[4px] border-purple-50 shadow-xl flex items-center justify-center mb-6 group-hover:scale-110 group-hover:border-purple-200 group-hover:shadow-[0_10px_30px_rgba(168,85,247,0.15)] transition-all duration-300 relative z-10">
                 <UserCheck className="text-purple-500 group-hover:text-purple-600 transition-colors" size={36} strokeWidth={1.5} />
-                <div className="absolute -top-2 -right-2 w-8 h-8 rounded-full bg-purple-600 text-white font-bold flex items-center justify-center text-sm shadow-md border-2 border-white">3</div>
+                <div className="absolute -top-2 -right-2 w-8 h-8 rounded-full bg-purple-600 text-white font-bold flex items-center justify-center text-sm shadow-md border-2 border-white dark:border-gray-800">3</div>
               </div>
-              <h3 className="text-[19px] font-extrabold text-gray-900 mb-2">Verify Ownership</h3>
+              <h3 className="text-[19px] font-extrabold text-gray-900 dark:text-white mb-2">Verify Ownership</h3>
               <p className="text-gray-500 text-[15px] font-medium max-w-[220px] leading-relaxed">Securely connect with the finder or loser to confirm details.</p>
             </motion.div>
 
             {/* Step 4 */}
             <motion.div variants={itemVariants} className="flex flex-col items-center text-center group">
-              <div className="w-24 h-24 rounded-full bg-white border-[4px] border-green-50 shadow-xl flex items-center justify-center mb-6 group-hover:scale-110 group-hover:border-green-200 group-hover:shadow-[0_10px_30px_rgba(34,197,94,0.15)] transition-all duration-300 relative z-10">
+              <div className="w-24 h-24 rounded-full bg-white dark:bg-gray-800 border-[4px] border-green-50 shadow-xl flex items-center justify-center mb-6 group-hover:scale-110 group-hover:border-green-200 group-hover:shadow-[0_10px_30px_rgba(34,197,94,0.15)] transition-all duration-300 relative z-10">
                 <Package className="text-green-500 group-hover:text-green-600 transition-colors" size={36} strokeWidth={1.5} />
-                <div className="absolute -top-2 -right-2 w-8 h-8 rounded-full bg-green-600 text-white font-bold flex items-center justify-center text-sm shadow-md border-2 border-white">4</div>
+                <div className="absolute -top-2 -right-2 w-8 h-8 rounded-full bg-green-600 text-white font-bold flex items-center justify-center text-sm shadow-md border-2 border-white dark:border-gray-800">4</div>
               </div>
-              <h3 className="text-[19px] font-extrabold text-gray-900 mb-2">Recover Item</h3>
+              <h3 className="text-[19px] font-extrabold text-gray-900 dark:text-white mb-2">Recover Item</h3>
               <p className="text-gray-500 text-[15px] font-medium max-w-[220px] leading-relaxed">Meet safely on campus and retrieve your belongings.</p>
             </motion.div>
 
@@ -576,9 +615,9 @@ export default function LandingPage() {
             style={{ backgroundSize: "200% auto" }}
           ></motion.div>
           
-          <div className="bg-white/70 backdrop-blur-lg rounded-[2.9rem] p-16 md:p-24 text-center relative overflow-hidden z-10 border border-white">
+          <div className="bg-white dark:bg-gray-800/70 backdrop-blur-lg rounded-[2.9rem] p-16 md:p-24 text-center relative overflow-hidden z-10 border border-white dark:border-gray-800">
             {/* Bright background base for consistency */}
-            <div className="absolute inset-0 bg-gradient-to-br from-blue-50/80 via-white/50 to-cyan-50/80 z-0"></div>
+            <div className="absolute inset-0 bg-gradient-to-br from-blue-50/80 via-white/50 to-cyan-50/80 dark:from-[#0F172A] dark:via-[#111827] dark:to-[#0B1120] z-0"></div>
 
             {/* Subtle Grid Pattern inside CTA */}
             <div className="absolute inset-0 bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] [background-size:32px_32px] opacity-60 z-0"></div>
@@ -605,7 +644,7 @@ export default function LandingPage() {
                 <span className="text-[14px]">⚡</span> AI-Powered Lost & Found Platform
               </div>
 
-              <h2 className="text-[40px] md:text-[56px] font-extrabold text-gray-900 mb-6 tracking-tight leading-[1.1]">
+              <h2 className="text-[40px] md:text-[56px] font-extrabold text-gray-900 dark:text-white mb-6 tracking-tight leading-[1.1]">
                 Ready to <motion.span 
                   animate={{ backgroundPosition: ["0% 50%", "100% 50%", "0% 50%"] }}
                   transition={{ duration: 5, ease: "linear", repeat: Infinity }}
@@ -629,7 +668,7 @@ export default function LandingPage() {
                   className="relative inline-flex items-center gap-3 bg-gradient-to-r from-blue-600 to-cyan-500 text-white px-10 py-5 rounded-full font-extrabold shadow-[0_10px_20px_rgba(0,82,255,0.2)] text-[18px] cursor-pointer hover:shadow-xl transition-all duration-300 group/btn border border-blue-400 overflow-hidden"
                 >
                   <span className="relative z-10">Create Free Account</span>
-                  <div className="bg-white/20 p-2 rounded-full relative z-10 group-hover/btn:bg-white group-hover/btn:text-blue-600 transition-colors duration-300">
+                  <div className="bg-white dark:bg-gray-800/20 p-2 rounded-full relative z-10 group-hover/btn:bg-white dark:bg-gray-800 group-hover/btn:text-blue-600 transition-colors duration-300">
                     <ArrowRight size={20} className="text-white group-hover/btn:text-blue-600 group-hover/btn:translate-x-0.5 transition-all" />
                   </div>
                 </Link>

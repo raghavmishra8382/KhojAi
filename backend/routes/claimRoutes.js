@@ -22,6 +22,11 @@ const upload = multer({ storage: storage });
 // @desc    Submit a new claim request
 router.post('/', auth, upload.single('proofImage'), async (req, res) => {
   try {
+    // Debug logging to help diagnose submission errors
+    console.log('POST /api/claims - user:', req.user && req.user.id);
+    console.log('POST /api/claims - body keys:', Object.keys(req.body || {}));
+    console.log('POST /api/claims - file present:', !!req.file);
+
     const body = req.body || {};
     const { foundItemId, lostItemId, identifyingDetail, message } = body;
     let proofImage = '';
@@ -66,7 +71,12 @@ router.post('/', auth, upload.single('proofImage'), async (req, res) => {
     res.status(201).json(savedClaim);
   } catch (err) {
     console.error(err);
-    res.status(500).send('Server Error');
+    const payload = { message: 'Server Error' };
+    if (process.env.NODE_ENV !== 'production') {
+      payload.error = err.message;
+      payload.stack = err.stack;
+    }
+    res.status(500).json(payload);
   }
 });
 

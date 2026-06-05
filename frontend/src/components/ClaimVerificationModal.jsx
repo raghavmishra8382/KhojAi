@@ -45,6 +45,12 @@ export default function ClaimVerificationModal({ isOpen, onClose, foundItem, los
     if (message) formData.append('message', message);
     if (proofImage) formData.append('proofImage', proofImage);
 
+      // Debugging: log token and form keys
+      console.log('Submitting claim. Token present?', Boolean(token));
+      for (const pair of formData.entries()) {
+        console.log('form:', pair[0], pair[1]);
+      }
+
       const res = await fetch('http://localhost:5000/api/claims', {
         method: 'POST',
         headers: {
@@ -56,8 +62,15 @@ export default function ClaimVerificationModal({ isOpen, onClose, foundItem, los
       if (res.ok) {
         setSubmitted(true);
       } else {
-        const errorData = await res.json();
-        setError('Failed to submit claim: ' + (errorData.message || 'Unknown error'));
+        let errorText;
+        try {
+          const errorData = await res.json();
+          errorText = errorData.message || JSON.stringify(errorData);
+        } catch (err) {
+          errorText = await res.text();
+        }
+        console.error('Claim submission failed', res.status, errorText);
+        setError(`Failed to submit claim (status ${res.status}): ${errorText}`);
       }
     } catch (err) {
       console.error(err);
@@ -83,15 +96,15 @@ export default function ClaimVerificationModal({ isOpen, onClose, foundItem, los
             initial={{ opacity: 0, scale: 0.95, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: 20 }}
-            className="relative w-full max-w-2xl bg-white rounded-3xl shadow-2xl overflow-hidden my-auto"
+            className="relative w-full max-w-2xl bg-white dark:bg-gray-800 rounded-3xl shadow-2xl overflow-hidden my-auto"
           >
             {/* Header */}
-            <div className="flex items-center justify-between p-6 border-b border-gray-100 bg-gray-50/50">
-              <h2 className="text-xl font-bold text-gray-900">Claim Verification</h2>
+            <div className="flex items-center justify-between p-6 border-b border-gray-100 dark:border-gray-700 bg-gray-50 dark:bg-gray-900/50">
+              <h2 className="text-xl font-bold text-gray-900 dark:text-white">Claim Verification</h2>
               {!isSubmitting && !submitted && (
                 <button 
                   onClick={onClose}
-                  className="p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-full transition-colors cursor-pointer"
+                  className="p-2 text-gray-400 hover:text-gray-600 dark:text-gray-400 hover:bg-gray-100 rounded-full transition-colors cursor-pointer"
                 >
                   <X size={20} />
                 </button>
@@ -107,7 +120,7 @@ export default function ClaimVerificationModal({ isOpen, onClose, foundItem, los
                 >
                   <CheckCircle size={40} />
                 </motion.div>
-                <h3 className="text-2xl font-bold text-gray-900 mb-2">Claim Submitted!</h3>
+                <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">Claim Submitted!</h3>
                   <p className="text-gray-500 mb-8 max-w-md mx-auto">
                     Your claim for "{itemContext.title}" has been securely sent. You will be notified in your Dashboard when the finder reviews your request.
                   </p>
@@ -136,7 +149,7 @@ export default function ClaimVerificationModal({ isOpen, onClose, foundItem, los
 
                 <div className="space-y-5">
                   <div>
-                    <label className="block text-sm font-semibold text-gray-700 mb-1">
+                    <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1">
                       Identifying Detail <span className="text-red-500">*</span>
                     </label>
                     <p className="text-xs text-gray-500 mb-2">What is a specific detail about this item that only the owner would know? (e.g. "There's a scratch on the bottom left corner")</p>
@@ -144,32 +157,32 @@ export default function ClaimVerificationModal({ isOpen, onClose, foundItem, los
                       required
                       value={identifyingDetail}
                       onChange={(e) => setIdentifyingDetail(e.target.value)}
-                      className="w-full border-2 border-gray-200 rounded-xl p-3 focus:border-cyan-500 focus:ring-0 outline-none transition-colors"
+                      className="w-full border-2 border-gray-200 dark:border-gray-600 rounded-xl p-3 focus:border-cyan-500 focus:ring-0 outline-none transition-colors"
                       rows="3"
                       placeholder="Enter a secret identifying detail..."
                     ></textarea>
                   </div>
 
                   <div>
-                    <label className="block text-sm font-semibold text-gray-700 mb-1">
+                    <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1">
                       Additional Message
                     </label>
                     <textarea 
                       value={message}
                       onChange={(e) => setMessage(e.target.value)}
-                      className="w-full border-2 border-gray-200 rounded-xl p-3 focus:border-cyan-500 focus:ring-0 outline-none transition-colors"
+                      className="w-full border-2 border-gray-200 dark:border-gray-600 rounded-xl p-3 focus:border-cyan-500 focus:ring-0 outline-none transition-colors"
                       rows="2"
                       placeholder="Any message for the finder..."
                     ></textarea>
                   </div>
 
                   <div>
-                    <label className="block text-sm font-semibold text-gray-700 mb-2">
+                    <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
                       Proof Image (Optional)
                     </label>
                     
                     {!proofImagePreview ? (
-                      <label className="flex flex-col items-center justify-center w-full h-32 border-2 border-dashed border-gray-300 rounded-xl cursor-pointer bg-gray-50 hover:bg-gray-100 transition-colors">
+                      <label className="flex flex-col items-center justify-center w-full h-32 border-2 border-dashed border-gray-300 rounded-xl cursor-pointer bg-gray-50 dark:bg-gray-900 hover:bg-gray-100 transition-colors">
                         <div className="flex flex-col items-center justify-center pt-5 pb-6">
                           <ImageIcon className="w-8 h-8 text-gray-400 mb-2" />
                           <p className="mb-2 text-sm text-gray-500"><span className="font-semibold">Click to upload</span> a receipt, old photo, or proof of purchase.</p>
@@ -180,7 +193,7 @@ export default function ClaimVerificationModal({ isOpen, onClose, foundItem, los
                       <div className="relative w-full h-48 rounded-xl overflow-hidden group">
                         <img src={proofImagePreview} alt="Proof" className="w-full h-full object-cover" />
                         <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center backdrop-blur-sm">
-                          <label className="bg-white text-gray-900 px-4 py-2 rounded-lg font-semibold text-sm cursor-pointer hover:bg-gray-100">
+                          <label className="bg-white dark:bg-gray-800 text-gray-900 dark:text-white px-4 py-2 rounded-lg font-semibold text-sm cursor-pointer hover:bg-gray-100">
                             Change Image
                             <input type="file" className="hidden" accept="image/*" onChange={handleImageChange} />
                           </label>
@@ -191,12 +204,12 @@ export default function ClaimVerificationModal({ isOpen, onClose, foundItem, los
                 </div>
 
                 {/* Footer */}
-                <div className="mt-8 pt-6 border-t border-gray-100 flex justify-end gap-3">
+                <div className="mt-8 pt-6 border-t border-gray-100 dark:border-gray-700 flex justify-end gap-3">
                   <button 
                     type="button"
                     onClick={onClose}
                     disabled={isSubmitting}
-                    className="px-6 py-2.5 rounded-xl font-semibold text-gray-600 hover:bg-gray-200 transition-colors cursor-pointer disabled:opacity-50"
+                    className="px-6 py-2.5 rounded-xl font-semibold text-gray-600 dark:text-gray-400 hover:bg-gray-200 transition-colors cursor-pointer disabled:opacity-50"
                   >
                     Cancel
                   </button>

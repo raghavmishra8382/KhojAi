@@ -173,7 +173,7 @@ export default function RegisterPage() {
         <motion.form animate={shakeField === 'serverError' ? 'shake' : ''} variants={shakeAnimation} onSubmit={handleSubmit} className="space-y-5">
           {/* Name Field */}
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Full Name</label>
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Full Name</label>
             <div className="relative">
               <span className="absolute inset-y-0 left-0 pl-3 flex items-center text-gray-400">
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
@@ -184,7 +184,7 @@ export default function RegisterPage() {
                 value={formData.name}
                 onChange={handleChange}
                 placeholder="Alex Johnson" 
-                className="w-full pl-10 pr-3 py-3 bg-white/50 backdrop-blur-sm border border-gray-200 rounded-xl focus:ring-2 focus:ring-[#0052FF] focus:border-[#0052FF] outline-none transition-all text-[15px]"
+                className="w-full pl-10 pr-3 py-3 bg-white dark:bg-gray-800/50 backdrop-blur-sm border border-gray-200 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-[#0052FF] focus:border-[#0052FF] outline-none transition-all text-[15px]"
                 required
               />
             </div>
@@ -192,7 +192,7 @@ export default function RegisterPage() {
 
           {/* Email Field */}
           <motion.div animate={shakeField === 'email' ? 'shake' : ''} variants={shakeAnimation}>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Email Address</label>
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Email Address</label>
             <div className="relative">
               <span className={`absolute inset-y-0 left-0 pl-3 flex items-center transition-colors ${touched.email && errors.email ? 'text-red-400' : 'text-gray-400'}`}>
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
@@ -204,7 +204,7 @@ export default function RegisterPage() {
                 onChange={handleChange}
                 onBlur={handleBlur}
                 placeholder="alex.johnson@university.edu" 
-                className={`w-full pl-10 pr-3 py-3 bg-white/50 backdrop-blur-sm border rounded-xl outline-none transition-all text-[15px] ${touched.email && errors.email ? 'border-red-500 focus:ring-2 focus:ring-red-500 focus:border-red-500' : 'border-gray-200 focus:ring-2 focus:ring-[#0052FF] focus:border-[#0052FF]'}`}
+                className={`w-full pl-10 pr-3 py-3 bg-white dark:bg-gray-800/50 backdrop-blur-sm border rounded-xl outline-none transition-all text-[15px] ${touched.email && errors.email ? 'border-red-500 focus:ring-2 focus:ring-red-500 focus:border-red-500' : 'border-gray-200 dark:border-gray-600 focus:ring-2 focus:ring-[#0052FF] focus:border-[#0052FF]'}`}
                 required
               />
             </div>
@@ -217,7 +217,7 @@ export default function RegisterPage() {
 
           {/* Phone Field */}
           <motion.div animate={shakeField === 'phone' ? 'shake' : ''} variants={shakeAnimation}>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Phone Number</label>
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Phone Number</label>
             <div className="relative">
               <span className={`absolute inset-y-0 left-0 pl-3 flex items-center transition-colors ${touched.phone && errors.phone ? 'text-red-400' : 'text-gray-400'}`}>
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path></svg>
@@ -229,7 +229,7 @@ export default function RegisterPage() {
                 onChange={handleChange}
                 onBlur={handleBlur}
                 placeholder="9876543210" 
-                className={`w-full pl-10 pr-3 py-3 bg-white/50 backdrop-blur-sm border rounded-xl outline-none transition-all text-[15px] ${touched.phone && errors.phone ? 'border-red-500 focus:ring-2 focus:ring-red-500 focus:border-red-500' : 'border-gray-200 focus:ring-2 focus:ring-[#0052FF] focus:border-[#0052FF]'}`}
+                className={`w-full pl-10 pr-3 py-3 bg-white dark:bg-gray-800/50 backdrop-blur-sm border rounded-xl outline-none transition-all text-[15px] ${touched.phone && errors.phone ? 'border-red-500 focus:ring-2 focus:ring-red-500 focus:border-red-500' : 'border-gray-200 dark:border-gray-600 focus:ring-2 focus:ring-[#0052FF] focus:border-[#0052FF]'}`}
                 required
               />
             </div>
@@ -242,7 +242,7 @@ export default function RegisterPage() {
 
           {/* Password Field */}
           <motion.div animate={shakeField === 'password' ? 'shake' : ''} variants={shakeAnimation}>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Password</label>
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Password</label>
             <div className="relative">
               <span className={`absolute inset-y-0 left-0 pl-3 flex items-center transition-colors ${touched.password && errors.password ? 'text-red-400' : 'text-gray-400'}`}>
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
@@ -254,7 +254,7 @@ export default function RegisterPage() {
                 onChange={handleChange}
                 onBlur={handleBlur}
                 placeholder="••••••••••" 
-                className={`w-full pl-10 pr-3 py-3 bg-white/50 backdrop-blur-sm border rounded-xl outline-none transition-all text-[15px] ${touched.password && errors.password ? 'border-red-500 focus:ring-2 focus:ring-red-500 focus:border-red-500' : 'border-gray-200 focus:ring-2 focus:ring-[#0052FF] focus:border-[#0052FF]'}`}
+                className={`w-full pl-10 pr-3 py-3 bg-white dark:bg-gray-800/50 backdrop-blur-sm border rounded-xl outline-none transition-all text-[15px] ${touched.password && errors.password ? 'border-red-500 focus:ring-2 focus:ring-red-500 focus:border-red-500' : 'border-gray-200 dark:border-gray-600 focus:ring-2 focus:ring-[#0052FF] focus:border-[#0052FF]'}`}
                 required
               />
             </div>
@@ -286,7 +286,7 @@ export default function RegisterPage() {
 
           {/* Confirm Password Field */}
           <motion.div animate={shakeField === 'confirmPassword' ? 'shake' : ''} variants={shakeAnimation}>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Confirm Password</label>
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Confirm Password</label>
             <div className="relative">
               <span className={`absolute inset-y-0 left-0 pl-3 flex items-center transition-colors ${touched.confirmPassword && errors.confirmPassword ? 'text-red-400' : 'text-gray-400'}`}>
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
@@ -298,7 +298,7 @@ export default function RegisterPage() {
                 onChange={handleChange}
                 onBlur={handleBlur}
                 placeholder="••••••••••" 
-                className={`w-full pl-10 pr-3 py-3 bg-white/50 backdrop-blur-sm border rounded-xl outline-none transition-all text-[15px] ${touched.confirmPassword && errors.confirmPassword ? 'border-red-500 focus:ring-2 focus:ring-red-500 focus:border-red-500' : 'border-gray-200 focus:ring-2 focus:ring-[#0052FF] focus:border-[#0052FF]'}`}
+                className={`w-full pl-10 pr-3 py-3 bg-white dark:bg-gray-800/50 backdrop-blur-sm border rounded-xl outline-none transition-all text-[15px] ${touched.confirmPassword && errors.confirmPassword ? 'border-red-500 focus:ring-2 focus:ring-red-500 focus:border-red-500' : 'border-gray-200 dark:border-gray-600 focus:ring-2 focus:ring-[#0052FF] focus:border-[#0052FF]'}`}
                 required
               />
             </div>
@@ -319,7 +319,7 @@ export default function RegisterPage() {
               className="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
               required
             />
-            <label htmlFor="agree" className="ml-2 text-sm text-gray-600">
+            <label htmlFor="agree" className="ml-2 text-sm text-gray-600 dark:text-gray-400">
               I agree to the <a href="#" className="text-blue-600 hover:underline">Terms of Service</a> and <a href="#" className="text-blue-600 hover:underline">Privacy Policy</a>
             </label>
           </div>
@@ -331,9 +331,9 @@ export default function RegisterPage() {
             Create Account
           </button>
 
-          <div className="text-center mt-6 pt-6 border-t border-gray-100">
+          <div className="text-center mt-6 pt-6 border-t border-gray-100 dark:border-gray-700">
             <span className="text-gray-500 text-sm">or</span>
-            <p className="mt-4 text-sm text-gray-600">
+            <p className="mt-4 text-sm text-gray-600 dark:text-gray-400">
               Already have an account? <Link to="/login" state={{ from }} className="text-blue-600 font-medium hover:underline cursor-pointer hover:scale-105 transition-all duration-300">Sign In</Link>
             </p>
           </div>

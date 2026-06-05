@@ -25,6 +25,7 @@ export default function ItemDetailPage() {
   const [showToast, setShowToast] = useState(false);
   const [error, setError] = useState(null);
   const [hasReported, setHasReported] = useState(false);
+  const [showResolveConfirm, setShowResolveConfirm] = useState(false);
 
   React.useEffect(() => {
     const fetchItem = async () => {
@@ -78,8 +79,13 @@ export default function ItemDetailPage() {
 
   const isOwner = user && item.user && (user.id || user._id) === (item.user.id || item.user._id);
 
-  const handleMarkResolved = async () => {
-    if (!window.confirm('Are you sure you want to mark this item as resolved?')) return;
+  const handleMarkResolved = () => {
+    // show inline confirmation instead of browser confirm
+    setShowResolveConfirm(true);
+  };
+
+  const confirmResolve = async () => {
+    setShowResolveConfirm(false);
     try {
       const res = await fetch(`http://localhost:5000/api/items/${item.id}/resolve`, {
         method: 'PUT',
@@ -129,7 +135,7 @@ export default function ItemDetailPage() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-cyan-50 pt-8 pb-16 px-4 md:px-8 font-sans">
       <div className="max-w-5xl mx-auto">
-        <button onClick={() => navigate(-1)} className="flex items-center gap-2 text-gray-500 hover:text-gray-900 mb-6 font-medium cursor-pointer hover:scale-105 transition-all duration-300">
+        <button onClick={() => navigate(-1)} className="flex items-center gap-2 text-gray-500 hover:text-gray-900 dark:text-white mb-6 font-medium cursor-pointer hover:scale-105 transition-all duration-300">
           <ArrowLeft size={20} />
           Back to Results
         </button>
@@ -141,10 +147,10 @@ export default function ItemDetailPage() {
           </div>
         )}
 
-        <div className="bg-white/80 backdrop-blur-xl rounded-[2rem] shadow-xl border border-white/40 overflow-hidden mb-8">
+        <div className="bg-white dark:bg-gray-800/80 backdrop-blur-xl rounded-[2rem] shadow-xl border border-white dark:border-gray-800/40 overflow-hidden mb-8">
           <div className="flex flex-col md:flex-row p-4 md:p-6 gap-6 md:gap-10">
             {/* Image */}
-            <div className="w-full md:w-[45%] h-72 md:h-[500px] relative rounded-3xl overflow-hidden shadow-[0_8px_30px_rgb(0,0,0,0.08)] bg-white border border-slate-100 flex items-center justify-center">
+            <div className="w-full md:w-[45%] h-72 md:h-[500px] relative rounded-3xl overflow-hidden shadow-[0_8px_30px_rgb(0,0,0,0.08)] bg-white dark:bg-gray-800 border border-slate-100 flex items-center justify-center">
               <img src={item.image} alt={item.title} className="w-full h-full object-contain p-2" />
             </div>
 
@@ -184,7 +190,7 @@ export default function ItemDetailPage() {
               </div>
 
               {/* Contact Card (Glassmorphism) */}
-              <div className="bg-white/40 backdrop-blur-md rounded-2xl p-6 border border-cyan-100 shadow-[0_0_20px_rgba(6,182,212,0.1)] relative overflow-hidden group hover:shadow-[0_0_25px_rgba(6,182,212,0.2)] transition-all duration-500">
+              <div className="bg-white dark:bg-gray-800/40 backdrop-blur-md rounded-2xl p-6 border border-cyan-100 shadow-[0_0_20px_rgba(6,182,212,0.1)] relative overflow-hidden group hover:shadow-[0_0_25px_rgba(6,182,212,0.2)] transition-all duration-500">
                 <div className="absolute top-0 right-0 bg-green-100 text-green-700 px-4 py-1.5 rounded-bl-2xl text-xs font-bold flex items-center gap-1.5 shadow-sm">
                   <ShieldCheck size={14} /> Private Contact
                 </div>
@@ -262,6 +268,15 @@ export default function ItemDetailPage() {
                     >
                       <CheckCircle size={18} /> {item.itemType === 'Lost' ? 'Mark as Resolved' : 'Mark as Claimed'}
                     </button>
+                    {showResolveConfirm && (
+                      <div className="w-full mt-4 bg-yellow-50 border border-yellow-200 text-yellow-800 px-4 py-3 rounded-xl text-sm flex items-center justify-between gap-4">
+                        <div>Are you sure you want to mark this item as resolved?</div>
+                        <div className="flex items-center gap-2">
+                          <button onClick={() => setShowResolveConfirm(false)} className="px-4 py-2 rounded-xl bg-white dark:bg-gray-800 border border-yellow-200 text-yellow-700">Cancel</button>
+                          <button onClick={confirmResolve} className="px-4 py-2 rounded-xl bg-yellow-600 text-white">Confirm</button>
+                        </div>
+                      </div>
+                    )}
                     
                     <div className="w-full mt-2 border-t border-slate-100 pt-6">
                       <button 
@@ -299,7 +314,7 @@ export default function ItemDetailPage() {
                     
                     <button 
                       onClick={() => setIsContactOwnerOpen(true)}
-                      className="flex-1 py-4 px-6 rounded-2xl font-bold text-slate-700 bg-white border-2 border-slate-200 hover:border-slate-300 hover:bg-slate-50 shadow-sm cursor-pointer hover:-translate-y-1 transition-all duration-300 text-lg"
+                      className="flex-1 py-4 px-6 rounded-2xl font-bold text-slate-700 bg-white dark:bg-gray-800 border-2 border-slate-200 hover:border-slate-300 hover:bg-slate-50 shadow-sm cursor-pointer hover:-translate-y-1 transition-all duration-300 text-lg"
                     >
                       Contact Owner
                     </button>

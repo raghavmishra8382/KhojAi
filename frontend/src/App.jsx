@@ -11,14 +11,18 @@ import SearchPage from './pages/SearchPage';
 import PostItemPage from './pages/PostItemPage';
 import ItemDetailPage from './pages/ItemDetailPage';
 import AIMatchResultsPage from './pages/AIMatchResultsPage';
+import ProfilePage from './pages/ProfilePage';
+import EditProfilePage from './pages/EditProfilePage';
+import SettingsPage from './pages/SettingsPage';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
+import SmartHelpWidget from './components/SmartHelpWidget';
 
 function App() {
   return (
     <AppProvider>
       <Router>
-        <div className="min-h-screen flex flex-col bg-gray-50 text-gray-900">
+        <div className="min-h-screen flex flex-col bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-white">
           <Navbar />
           <main className="flex-grow">
             <Routes>
@@ -33,9 +37,13 @@ function App() {
               <Route path="/post-found" element={<PostItemPage type="found" />} />
               <Route path="/item/:id" element={<ItemDetailPage />} />
               <Route path="/matches/:id" element={<AIMatchResultsPage />} />
+              <Route path="/profile" element={<ProfilePage />} />
+              <Route path="/profile/edit" element={<EditProfilePage />} />
+              <Route path="/settings" element={<SettingsPage />} />
             </Routes>
           </main>
           <Footer />
+          <SmartHelpWidget />
         </div>
       </Router>
     </AppProvider>

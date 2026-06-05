@@ -105,7 +105,7 @@ export default function LoginPage() {
                 value={formData.email}
                 onChange={handleChange}
                 placeholder="alex@university.edu" 
-                className="w-full pl-10 pr-3 py-3 bg-white/50 backdrop-blur-sm border border-gray-200 rounded-xl focus:ring-2 focus:ring-[#0052FF] focus:border-[#0052FF] outline-none transition-all text-[15px]"
+                className="w-full pl-10 pr-3 py-3 bg-white dark:bg-gray-800/50 backdrop-blur-sm border border-gray-200 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-[#0052FF] focus:border-[#0052FF] outline-none transition-all text-[15px]"
                 required
               />
             </div>
@@ -126,7 +126,7 @@ export default function LoginPage() {
                 value={formData.password}
                 onChange={handleChange}
                 placeholder="••••••••••" 
-                className="w-full pl-10 pr-3 py-3 bg-white/50 backdrop-blur-sm border border-gray-200 rounded-xl focus:ring-2 focus:ring-[#0052FF] focus:border-[#0052FF] outline-none transition-all text-[15px]"
+                className="w-full pl-10 pr-3 py-3 bg-white dark:bg-gray-800/50 backdrop-blur-sm border border-gray-200 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-[#0052FF] focus:border-[#0052FF] outline-none transition-all text-[15px]"
                 required
               />
             </div>
@@ -139,8 +139,8 @@ export default function LoginPage() {
             Sign In
           </button>
 
-          <div className="text-center mt-8 pt-6 border-t border-gray-100">
-            <p className="text-[15px] text-gray-600">
+          <div className="text-center mt-8 pt-6 border-t border-gray-100 dark:border-gray-700">
+            <p className="text-[15px] text-gray-600 dark:text-gray-400">
               Don't have an account? <Link to="/register" state={{ from }} className="text-[#0052FF] font-semibold hover:underline cursor-pointer hover:scale-105 transition-all duration-300">Sign Up</Link>
             </p>
           </div>

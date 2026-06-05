@@ -61,16 +61,16 @@ export default function ContactOwnerModal({ isOpen, onClose, item }) {
             initial={{ opacity: 0, scale: 0.95, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: 20 }}
-            className="relative w-full max-w-lg bg-white rounded-3xl shadow-2xl overflow-hidden my-auto flex flex-col"
+            className="relative w-full max-w-lg bg-white dark:bg-gray-800 rounded-3xl shadow-2xl overflow-hidden my-auto flex flex-col"
           >
-            <div className="flex items-center justify-between p-6 border-b border-gray-100 bg-gray-50/50">
-              <h2 className="text-xl font-bold text-gray-900 flex items-center gap-2">
+            <div className="flex items-center justify-between p-6 border-b border-gray-100 dark:border-gray-700 bg-gray-50 dark:bg-gray-900/50">
+              <h2 className="text-xl font-bold text-gray-900 dark:text-white flex items-center gap-2">
                 <ShieldCheck className="text-green-500" /> Secure Message
               </h2>
               {!isSubmitting && !submitted && (
                 <button 
                   onClick={onClose}
-                  className="p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-full transition-colors cursor-pointer"
+                  className="p-2 text-gray-400 hover:text-gray-600 dark:text-gray-400 hover:bg-gray-100 rounded-full transition-colors cursor-pointer"
                 >
                   <X size={20} />
                 </button>
@@ -87,7 +87,7 @@ export default function ContactOwnerModal({ isOpen, onClose, item }) {
                   >
                     <CheckCircle size={32} />
                   </motion.div>
-                  <h3 className="text-xl font-bold text-gray-900 mb-2">Message Sent!</h3>
+                  <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2">Message Sent!</h3>
                   <p className="text-gray-500 mb-6 text-sm">
                     The owner has been notified. They can read your message and reply via the platform.
                   </p>
@@ -100,8 +100,8 @@ export default function ContactOwnerModal({ isOpen, onClose, item }) {
                 </div>
               ) : (
                 <form onSubmit={handleSubmit} className="space-y-5">
-                  <p className="text-sm text-gray-600">
-                    Send a private message to the owner of <span className="font-semibold text-gray-900">"{item.title}"</span>. Your contact information is kept private.
+                  <p className="text-sm text-gray-600 dark:text-gray-400">
+                    Send a private message to the owner of <span className="font-semibold text-gray-900 dark:text-white">"{item.title}"</span>. Your contact information is kept private.
                   </p>
 
                   {error && (
@@ -112,14 +112,14 @@ export default function ContactOwnerModal({ isOpen, onClose, item }) {
                   )}
 
                   <div>
-                    <label className="block text-sm font-semibold text-gray-700 mb-2">
+                    <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
                       Message <span className="text-red-500">*</span>
                     </label>
                     <textarea 
                       required
                       value={message}
                       onChange={(e) => setMessage(e.target.value)}
-                      className="w-full border-2 border-gray-200 rounded-xl p-3 focus:border-cyan-500 focus:ring-0 outline-none transition-colors"
+                      className="w-full border-2 border-gray-200 dark:border-gray-600 rounded-xl p-3 focus:border-cyan-500 focus:ring-0 outline-none transition-colors"
                       rows="4"
                       placeholder="e.g. Hi, I think I saw your item near the library cafe..."
                     ></textarea>
@@ -130,7 +130,7 @@ export default function ContactOwnerModal({ isOpen, onClose, item }) {
                       type="button"
                       onClick={onClose}
                       disabled={isSubmitting}
-                      className="flex-1 py-2.5 rounded-xl font-semibold text-gray-600 bg-gray-100 hover:bg-gray-200 transition-colors cursor-pointer disabled:opacity-50"
+                      className="flex-1 py-2.5 rounded-xl font-semibold text-gray-600 dark:text-gray-400 bg-gray-100 hover:bg-gray-200 transition-colors cursor-pointer disabled:opacity-50"
                     >
                       Cancel
                     </button>

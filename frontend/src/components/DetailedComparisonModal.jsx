@@ -46,14 +46,14 @@ export default function DetailedComparisonModal({ isOpen, onClose, lostItem, fou
             initial={{ opacity: 0, scale: 0.95, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: 20 }}
-            className="relative w-full max-w-4xl max-h-[90vh] flex flex-col bg-white rounded-3xl shadow-2xl overflow-hidden my-auto"
+            className="relative w-full max-w-4xl max-h-[90vh] flex flex-col bg-white dark:bg-gray-800 rounded-3xl shadow-2xl overflow-hidden my-auto"
           >
             {/* Header */}
-            <div className="flex-shrink-0 flex items-center justify-between p-6 border-b border-gray-100 bg-gray-50/50">
-              <h2 className="text-xl font-bold text-gray-900">Review Match Details</h2>
+            <div className="flex-shrink-0 flex items-center justify-between p-6 border-b border-gray-100 dark:border-gray-700 bg-gray-50 dark:bg-gray-900/50">
+              <h2 className="text-xl font-bold text-gray-900 dark:text-white">Review Match Details</h2>
               <button 
                 onClick={onClose}
-                className="p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-full transition-colors cursor-pointer"
+                className="p-2 text-gray-400 hover:text-gray-600 dark:text-gray-400 hover:bg-gray-100 rounded-full transition-colors cursor-pointer"
               >
                 <X size={20} />
               </button>
@@ -68,11 +68,11 @@ export default function DetailedComparisonModal({ isOpen, onClose, lostItem, fou
                   <div className="inline-block px-3 py-1 bg-red-50 text-red-700 text-xs font-bold uppercase tracking-wider rounded-full border border-red-100 mb-2">
                     Your Lost Item
                   </div>
-                  <div className="aspect-[4/3] rounded-2xl overflow-hidden bg-gray-100 border border-gray-200">
+                  <div className="aspect-[4/3] rounded-2xl overflow-hidden bg-gray-100 border border-gray-200 dark:border-gray-600">
                     <img src={lostItem.image} alt="Lost" className="w-full h-full object-cover" />
                   </div>
                   <div>
-                    <h3 className="text-lg font-bold text-gray-900">{lostItem.title}</h3>
+                    <h3 className="text-lg font-bold text-gray-900 dark:text-white">{lostItem.title}</h3>
                     <div className="flex items-center gap-4 mt-2 text-sm text-gray-500">
                       <span className="flex items-center gap-1.5"><Calendar size={14} /> {lostItem.date}</span>
                       <span className="flex items-center gap-1.5"><MapPin size={14} /> {lostItem.location ? lostItem.location.split(',')[0] : 'Unknown'}</span>
@@ -85,11 +85,11 @@ export default function DetailedComparisonModal({ isOpen, onClose, lostItem, fou
                   <div className="inline-block px-3 py-1 bg-green-50 text-green-700 text-xs font-bold uppercase tracking-wider rounded-full border border-green-100 mb-2">
                     Found Item Match
                   </div>
-                  <div className="aspect-[4/3] rounded-2xl overflow-hidden bg-gray-100 border border-gray-200">
+                  <div className="aspect-[4/3] rounded-2xl overflow-hidden bg-gray-100 border border-gray-200 dark:border-gray-600">
                     <img src={foundItem.image} alt="Found" className="w-full h-full object-cover" />
                   </div>
                   <div>
-                    <h3 className="text-lg font-bold text-gray-900">{foundItem.title}</h3>
+                    <h3 className="text-lg font-bold text-gray-900 dark:text-white">{foundItem.title}</h3>
                     <div className="flex items-center gap-4 mt-2 text-sm text-gray-500">
                       <span className="flex items-center gap-1.5"><Calendar size={14} /> {foundItem.dateFound}</span>
                       <span className="flex items-center gap-1.5"><MapPin size={14} /> {foundItem.locationFound ? foundItem.locationFound.split(',')[0] : 'Unknown'}</span>
@@ -122,10 +122,10 @@ export default function DetailedComparisonModal({ isOpen, onClose, lostItem, fou
             </div>
 
             {/* Footer */}
-            <div className="flex-shrink-0 p-6 border-t border-gray-100 bg-gray-50/50 flex flex-col-reverse sm:flex-row justify-end gap-3">
+            <div className="flex-shrink-0 p-6 border-t border-gray-100 dark:border-gray-700 bg-gray-50 dark:bg-gray-900/50 flex flex-col-reverse sm:flex-row justify-end gap-3">
               <button 
                 onClick={onClose}
-                className="w-full sm:w-auto px-6 py-2.5 rounded-xl font-semibold text-gray-600 hover:bg-gray-200 transition-colors cursor-pointer"
+                className="w-full sm:w-auto px-6 py-2.5 rounded-xl font-semibold text-gray-600 dark:text-gray-400 hover:bg-gray-200 transition-colors cursor-pointer"
               >
                 Cancel
               </button>
@@ -144,7 +144,7 @@ export default function DetailedComparisonModal({ isOpen, onClose, lostItem, fou
                     <>
                       <button 
                         onClick={() => setIsContactModalOpen(true)}
-                        className="w-full sm:w-auto px-6 py-2.5 rounded-xl font-semibold text-gray-700 bg-white border-2 border-gray-200 hover:border-gray-300 hover:bg-gray-50 transition-colors flex items-center justify-center gap-2 cursor-pointer"
+                        className="w-full sm:w-auto px-6 py-2.5 rounded-xl font-semibold text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-800 border-2 border-gray-200 dark:border-gray-600 hover:border-gray-300 hover:bg-gray-50 dark:bg-gray-900 transition-colors flex items-center justify-center gap-2 cursor-pointer"
                       >
                         <MessageCircle size={18} /> Contact Finder
                       </button>

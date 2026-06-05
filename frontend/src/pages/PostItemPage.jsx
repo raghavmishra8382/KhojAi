@@ -161,7 +161,7 @@ export default function PostItemPage({ type }) {
       <div className="absolute top-0 right-0 w-72 h-72 bg-blue-300 rounded-full mix-blend-multiply filter blur-[100px] opacity-20 pointer-events-none"></div>
 
       <div className="glass-card rounded-3xl p-8 relative z-10">
-        <h1 className="text-3xl font-bold text-gray-900 mb-8 tracking-tight">
+        <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-8 tracking-tight">
           Report {type === 'lost' ? 'Lost' : 'Found'} Item
         </h1>
         
@@ -175,8 +175,8 @@ export default function PostItemPage({ type }) {
         <form onSubmit={handleSubmit} className="space-y-8">
           
           {/* AI Image Upload Section */}
-          <div className="bg-gradient-to-r from-blue-50/50 to-cyan-50/50 p-6 rounded-2xl border border-blue-100/50 flex flex-col md:flex-row items-center gap-6 shadow-inner">
-            <div className="relative w-full md:w-32 h-32 bg-white rounded-xl border-2 border-dashed border-blue-200 flex flex-col items-center justify-center text-blue-400 hover:bg-blue-50/50 transition-colors cursor-pointer overflow-hidden">
+          <div className="bg-gradient-to-r from-blue-50/50 to-cyan-50/50 dark:from-[#0F172A] dark:to-[#0B1120] p-6 rounded-2xl border border-blue-100/50 flex flex-col md:flex-row items-center gap-6 shadow-inner">
+            <div className="relative w-full md:w-32 h-32 bg-white dark:bg-gray-800 rounded-xl border-2 border-dashed border-blue-200 flex flex-col items-center justify-center text-blue-400 hover:bg-blue-50/50 transition-colors cursor-pointer overflow-hidden">
               {imagePreview ? (
                 <img src={imagePreview} alt="Preview" className="w-full h-full object-cover" />
               ) : (
@@ -188,7 +188,7 @@ export default function PostItemPage({ type }) {
               <input type="file" accept="image/*" onChange={handleImageChange} className="absolute inset-0 opacity-0 cursor-pointer" />
             </div>
             <div className="flex-grow text-center md:text-left">
-              <h3 className="font-bold text-gray-900 mb-2 flex items-center justify-center md:justify-start gap-2 text-lg">
+              <h3 className="font-bold text-gray-900 dark:text-white mb-2 flex items-center justify-center md:justify-start gap-2 text-lg">
                 <Sparkles size={20} className="text-[#00B4D8]" /> 
                 AI Auto-Extraction
               </h3>
@@ -217,14 +217,14 @@ export default function PostItemPage({ type }) {
           {/* Basic Info */}
           <div className="space-y-5">
             <div>
-              <label className="block text-sm font-semibold text-gray-700 mb-2">Item Name *</label>
-              <input type="text" name="title" value={formData.title} onChange={handleChange} className="w-full px-4 py-3 bg-white/50 backdrop-blur-sm border border-gray-200 rounded-xl focus:ring-2 focus:ring-[#0052FF] outline-none transition-all text-[15px]" required />
+              <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Item Name *</label>
+              <input type="text" name="title" value={formData.title} onChange={handleChange} className="w-full px-4 py-3 bg-white dark:bg-gray-800/50 backdrop-blur-sm border border-gray-200 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-[#0052FF] outline-none transition-all text-[15px]" required />
             </div>
             
             <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">Category *</label>
-                <select name="category" value={formData.category} onChange={handleChange} className="w-full px-4 py-3 bg-white/50 backdrop-blur-sm border border-gray-200 rounded-xl focus:ring-2 focus:ring-[#0052FF] outline-none transition-all text-[15px]">
+                <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Category *</label>
+                <select name="category" value={formData.category} onChange={handleChange} className="w-full px-4 py-3 bg-white dark:bg-gray-800/50 backdrop-blur-sm border border-gray-200 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-[#0052FF] outline-none transition-all text-[15px]">
                   <option>Electronics</option>
                   <option>Wallets & Cards</option>
                   <option>Bags</option>
@@ -234,19 +234,19 @@ export default function PostItemPage({ type }) {
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">Item Type *</label>
+                <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Item Type *</label>
                 {formData.category === 'Other' ? (
-                  <input type="text" name="customItemType" value={formData.customItemType} onChange={handleChange} className="w-full px-4 py-3 bg-white/50 backdrop-blur-sm border border-gray-200 rounded-xl focus:ring-2 focus:ring-[#0052FF] outline-none transition-all text-[15px]" placeholder="Please specify item type *" required />
+                  <input type="text" name="customItemType" value={formData.customItemType} onChange={handleChange} className="w-full px-4 py-3 bg-white dark:bg-gray-800/50 backdrop-blur-sm border border-gray-200 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-[#0052FF] outline-none transition-all text-[15px]" placeholder="Please specify item type *" required />
                 ) : (
                   <div className="space-y-3">
-                    <select name="itemType" value={formData.itemType} onChange={handleChange} className="w-full px-4 py-3 bg-white/50 backdrop-blur-sm border border-gray-200 rounded-xl focus:ring-2 focus:ring-[#0052FF] outline-none transition-all text-[15px]" required>
+                    <select name="itemType" value={formData.itemType} onChange={handleChange} className="w-full px-4 py-3 bg-white dark:bg-gray-800/50 backdrop-blur-sm border border-gray-200 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-[#0052FF] outline-none transition-all text-[15px]" required>
                       <option value="" disabled>Select a type...</option>
                       {CATEGORY_TYPES[formData.category]?.map(type => (
                         <option key={type} value={type}>{type}</option>
                       ))}
                     </select>
                     {formData.itemType === 'Other' && (
-                      <input type="text" name="customItemType" value={formData.customItemType} onChange={handleChange} className="w-full px-4 py-3 bg-white/50 backdrop-blur-sm border border-gray-200 rounded-xl focus:ring-2 focus:ring-[#0052FF] outline-none transition-all text-[15px]" placeholder="Please specify item type *" required />
+                      <input type="text" name="customItemType" value={formData.customItemType} onChange={handleChange} className="w-full px-4 py-3 bg-white dark:bg-gray-800/50 backdrop-blur-sm border border-gray-200 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-[#0052FF] outline-none transition-all text-[15px]" placeholder="Please specify item type *" required />
                     )}
                   </div>
                 )}
@@ -255,8 +255,8 @@ export default function PostItemPage({ type }) {
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">Brand</label>
-                <input type="text" name="brand" value={formData.brand} onChange={handleChange} list="brand-suggestions" className="w-full px-4 py-3 bg-white/50 backdrop-blur-sm border border-gray-200 rounded-xl focus:ring-2 focus:ring-[#0052FF] outline-none transition-all text-[15px]" placeholder="e.g. Apple, OnePlus" />
+                <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Brand</label>
+                <input type="text" name="brand" value={formData.brand} onChange={handleChange} list="brand-suggestions" className="w-full px-4 py-3 bg-white dark:bg-gray-800/50 backdrop-blur-sm border border-gray-200 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-[#0052FF] outline-none transition-all text-[15px]" placeholder="e.g. Apple, OnePlus" />
                 <datalist id="brand-suggestions">
                   <option value="OnePlus" />
                   <option value="Apple" />
@@ -269,9 +269,9 @@ export default function PostItemPage({ type }) {
               </div>
               
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">Color</label>
+                <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Color</label>
                 <div className="space-y-3">
-                  <select name="color" value={formData.color} onChange={handleChange} className="w-full px-4 py-3 bg-white/50 backdrop-blur-sm border border-gray-200 rounded-xl focus:ring-2 focus:ring-[#0052FF] outline-none transition-all text-[15px]">
+                  <select name="color" value={formData.color} onChange={handleChange} className="w-full px-4 py-3 bg-white dark:bg-gray-800/50 backdrop-blur-sm border border-gray-200 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-[#0052FF] outline-none transition-all text-[15px]">
                     <option value="">Select a color...</option>
                     <option value="Black">Black</option>
                     <option value="White">White</option>
@@ -283,62 +283,62 @@ export default function PostItemPage({ type }) {
                     <option value="Other">Other</option>
                   </select>
                   {formData.color === 'Other' && (
-                    <input type="text" name="customColor" value={formData.customColor} onChange={handleChange} className="w-full px-4 py-3 bg-white/50 backdrop-blur-sm border border-gray-200 rounded-xl focus:ring-2 focus:ring-[#0052FF] outline-none transition-all text-[15px]" placeholder="Please specify color *" required />
+                    <input type="text" name="customColor" value={formData.customColor} onChange={handleChange} className="w-full px-4 py-3 bg-white dark:bg-gray-800/50 backdrop-blur-sm border border-gray-200 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-[#0052FF] outline-none transition-all text-[15px]" placeholder="Please specify color *" required />
                   )}
                 </div>
               </div>
             </div>
 
             <div>
-              <label className="block text-sm font-semibold text-gray-700 mb-2">Description</label>
-              <textarea name="description" value={formData.description} onChange={handleChange} rows="3" className="w-full px-4 py-3 bg-white/50 backdrop-blur-sm border border-gray-200 rounded-xl focus:ring-2 focus:ring-[#0052FF] outline-none transition-all text-[15px]" placeholder="Be specific - it helps AI match your item..."></textarea>
+              <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Description</label>
+              <textarea name="description" value={formData.description} onChange={handleChange} rows="3" className="w-full px-4 py-3 bg-white dark:bg-gray-800/50 backdrop-blur-sm border border-gray-200 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-[#0052FF] outline-none transition-all text-[15px]" placeholder="Be specific - it helps AI match your item..."></textarea>
             </div>
           </div>
 
-          <hr className="border-gray-100" />
+          <hr className="border-gray-100 dark:border-gray-700" />
 
           {/* Location & Date */}
           <div className="space-y-5">
             <div>
-              <label className="block text-sm font-semibold text-gray-700 mb-2">{type === 'lost' ? 'Last Seen Location' : 'Found Location'} *</label>
+              <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">{type === 'lost' ? 'Last Seen Location' : 'Found Location'} *</label>
               <div className="relative">
                 <span className="absolute inset-y-0 left-0 pl-4 flex items-center text-gray-400">
                   <MapPin size={18} />
                 </span>
-                <input type="text" name="location" value={formData.location} onChange={handleChange} className="w-full pl-11 pr-4 py-3 bg-white/50 backdrop-blur-sm border border-gray-200 rounded-xl focus:ring-2 focus:ring-[#0052FF] outline-none transition-all text-[15px]" placeholder="e.g. Main Library" required />
+                <input type="text" name="location" value={formData.location} onChange={handleChange} className="w-full pl-11 pr-4 py-3 bg-white dark:bg-gray-800/50 backdrop-blur-sm border border-gray-200 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-[#0052FF] outline-none transition-all text-[15px]" placeholder="e.g. Main Library" required />
               </div>
             </div>
 
             <div>
-              <label className="block text-sm font-semibold text-gray-700 mb-2">Date {type === 'lost' ? 'Lost' : 'Found'} *</label>
+              <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Date {type === 'lost' ? 'Lost' : 'Found'} *</label>
               <div className="relative">
                 <span className="absolute inset-y-0 left-0 pl-4 flex items-center text-gray-400">
                   <Calendar size={18} />
                 </span>
-                <input type="date" name="date" value={formData.date} onChange={handleChange} className="w-full pl-11 pr-4 py-3 bg-white/50 backdrop-blur-sm border border-gray-200 rounded-xl focus:ring-2 focus:ring-[#0052FF] outline-none transition-all text-[15px]" required />
+                <input type="date" name="date" value={formData.date} onChange={handleChange} className="w-full pl-11 pr-4 py-3 bg-white dark:bg-gray-800/50 backdrop-blur-sm border border-gray-200 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-[#0052FF] outline-none transition-all text-[15px]" required />
               </div>
             </div>
           </div>
 
-          <hr className="border-gray-100" />
+          <hr className="border-gray-100 dark:border-gray-700" />
 
           {/* Contact Info */}
           <div>
-            <h3 className="text-xl font-bold text-gray-900 mb-5">Contact Information</h3>
+            <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-5">Contact Information</h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">Email *</label>
-                <input type="email" name="email" value={formData.email} onChange={handleChange} className="w-full px-4 py-3 bg-white/50 backdrop-blur-sm border border-gray-200 rounded-xl focus:ring-2 focus:ring-[#0052FF] outline-none transition-all text-[15px]" placeholder="user@khoj.com" required />
+                <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Email *</label>
+                <input type="email" name="email" value={formData.email} onChange={handleChange} className="w-full px-4 py-3 bg-white dark:bg-gray-800/50 backdrop-blur-sm border border-gray-200 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-[#0052FF] outline-none transition-all text-[15px]" placeholder="user@khoj.com" required />
               </div>
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">Phone</label>
-                <input type="tel" name="phone" value={formData.phone} onChange={handleChange} className="w-full px-4 py-3 bg-white/50 backdrop-blur-sm border border-gray-200 rounded-xl focus:ring-2 focus:ring-[#0052FF] outline-none transition-all text-[15px]" placeholder="+1 (555) 123-4567" />
+                <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Phone</label>
+                <input type="tel" name="phone" value={formData.phone} onChange={handleChange} className="w-full px-4 py-3 bg-white dark:bg-gray-800/50 backdrop-blur-sm border border-gray-200 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-[#0052FF] outline-none transition-all text-[15px]" placeholder="+1 (555) 123-4567" />
               </div>
             </div>
           </div>
 
           <div className="flex items-center justify-between pt-6">
-            <button type="button" onClick={() => navigate(-1)} className="text-gray-500 hover:text-gray-700 font-bold px-4 py-2 cursor-pointer hover:scale-105 transition-all duration-300">
+            <button type="button" onClick={() => navigate(-1)} className="text-gray-500 hover:text-gray-700 dark:text-gray-300 font-bold px-4 py-2 cursor-pointer hover:scale-105 transition-all duration-300">
               Cancel
             </button>
             <button type="submit" className="bg-gradient-brand text-white px-8 py-3.5 rounded-xl font-bold text-[15px] hover:shadow-lg hover:opacity-90 cursor-pointer hover:scale-105 transition-all duration-300">

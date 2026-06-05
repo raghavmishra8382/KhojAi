@@ -10,6 +10,11 @@ const app = express();
 // Middleware
 app.use(cors());
 app.use(express.json());
+// Simple request logger for debugging
+app.use((req, res, next) => {
+  console.log('REQ', req.method, req.path);
+  next();
+});
 
 // Database Connection
 mongoose.connect(process.env.MONGO_URI)
@@ -23,6 +28,7 @@ const aiRoutes = require('./routes/aiRoutes');
 const claimRoutes = require('./routes/claimRoutes');
 const contactRoutes = require('./routes/contactRoutes');
 const notificationRoutes = require('./routes/notificationRoutes');
+const supportRoutes = require('./routes/supportRoutes');
 
 app.use('/api/auth', authRoutes);
 app.use('/api/items', itemRoutes);
@@ -30,6 +36,7 @@ app.use('/api/ai', aiRoutes);
 app.use('/api/claims', claimRoutes);
 app.use('/api/contact', contactRoutes);
 app.use('/api/notifications', notificationRoutes);
+app.use('/api/support', supportRoutes);
 
 // Base route
 app.get('/', (req, res) => {

@@ -4,19 +4,19 @@ import { MapPin, Calendar, Sparkles, Search } from 'lucide-react';
 
 const ItemCard = ({ item }) => {
   return (
-    <Link to={`/item/${item.id}`} className="block bg-white rounded-3xl overflow-hidden shadow-sm border border-gray-100 hover:shadow-[0_20px_40px_rgba(0,0,0,0.1)] hover:-translate-y-1.5 hover:border-cyan-200 duration-500 group cursor-pointer h-full flex flex-col">
-      <div className="aspect-[4/3] bg-gray-50 rounded-2xl overflow-hidden relative border border-gray-100 m-2 mt-2 w-[calc(100%-16px)] shrink-0">
+    <Link to={`/item/${item.id}`} className="block bg-white dark:bg-gray-800 rounded-3xl overflow-hidden shadow-sm border border-gray-100 dark:border-gray-700 hover:shadow-[0_20px_40px_rgba(0,0,0,0.1)] hover:-translate-y-1.5 hover:border-cyan-200 duration-500 group cursor-pointer h-full flex flex-col">
+      <div className="aspect-[4/3] bg-gray-50 dark:bg-gray-900 rounded-2xl overflow-hidden relative border border-gray-100 dark:border-gray-700 m-2 mt-2 w-[calc(100%-16px)] shrink-0">
         <img src={item.image} alt={item.title} className="w-full h-full object-cover object-center group-hover:scale-110 transition-transform duration-700" />
         <div className={`absolute top-3 left-3 px-3 py-1.5 rounded-full text-[11px] font-bold text-white shadow-lg backdrop-blur-md flex items-center gap-1.5 uppercase tracking-wider ${item.type === 'Lost' ? 'bg-blue-600/90 shadow-[0_0_15px_rgba(37,99,235,0.4)]' : 'bg-green-600/90 shadow-[0_0_15px_rgba(22,163,74,0.4)]'}`}>
-          <span className="w-1.5 h-1.5 rounded-full bg-white animate-ping relative"><span className="absolute inset-0 rounded-full bg-white"></span></span>
+          <span className="w-1.5 h-1.5 rounded-full bg-white dark:bg-gray-800 animate-ping relative"><span className="absolute inset-0 rounded-full bg-white dark:bg-gray-800"></span></span>
           {item.type}
         </div>
       </div>
       <div className="p-4 flex-grow flex flex-col">
-        <h3 className="font-extrabold text-lg text-gray-900 mb-1 group-hover:text-cyan-600 transition-colors capitalize line-clamp-1">{item.title.replace(/One\s*Plus/i, 'OnePlus')}</h3>
+        <h3 className="font-extrabold text-lg text-gray-900 dark:text-white mb-1 group-hover:text-cyan-600 transition-colors capitalize line-clamp-1">{item.title.replace(/One\s*Plus/i, 'OnePlus')}</h3>
         
         {item.matchScore && (
-          <div className="flex items-center gap-1.5 mb-3 bg-gradient-to-r from-blue-50 to-cyan-50 border border-blue-100 px-2.5 py-1 rounded-md w-max">
+          <div className="flex items-center gap-1.5 mb-3 bg-gradient-to-r from-blue-50 to-cyan-50 dark:from-[#0F172A] dark:to-[#0B1120] border border-blue-100 px-2.5 py-1 rounded-md w-max">
             <Sparkles size={14} className="text-[#00B4D8]" />
             <span className="text-xs font-bold text-gradient">AI Match — {item.matchScore}% Similarity</span>
           </div>
@@ -83,7 +83,7 @@ export default function SearchPage() {
 
       {/* Semantic Search Bar */}
       <div className="glass-card p-2 rounded-2xl shadow-sm mb-6 flex flex-col sm:flex-row items-center relative z-10">
-        <div className="bg-gradient-to-r from-blue-50 to-cyan-50 p-3 rounded-xl mx-2 hidden sm:block">
+        <div className="bg-gradient-to-r from-blue-50 to-cyan-50 dark:from-[#0F172A] dark:to-[#0B1120] p-3 rounded-xl mx-2 hidden sm:block">
           <Sparkles className="text-[#00B4D8]" size={24} />
         </div>
         <div className="flex-grow w-full px-4 py-3 sm:py-0 flex items-center">
@@ -91,7 +91,7 @@ export default function SearchPage() {
           <input 
             type="text" 
             placeholder="Describe what you lost in natural language... (e.g. 'black wallet near the library')" 
-            className="w-full text-gray-700 focus:outline-none text-[15px] bg-transparent"
+            className="w-full text-gray-700 dark:text-gray-300 focus:outline-none text-[15px] bg-transparent"
           />
         </div>
         <button className="w-full sm:w-auto bg-gradient-brand text-white px-8 py-3.5 rounded-xl font-bold hover:shadow-lg hover:opacity-90 sm:mr-1 mt-2 sm:mt-0 whitespace-nowrap cursor-pointer hover:scale-105 transition-all duration-300">
@@ -100,7 +100,7 @@ export default function SearchPage() {
       </div>
 
       {/* Filters Section */}
-      <div className="bg-white/80 backdrop-blur-md p-4 rounded-2xl shadow-sm border border-gray-100 mb-8 flex flex-col sm:flex-row gap-6 items-center justify-between relative z-10">
+      <div className="bg-white dark:bg-gray-800/80 backdrop-blur-md p-4 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700 mb-8 flex flex-col sm:flex-row gap-6 items-center justify-between relative z-10">
         
         <div className="flex-1 w-full">
           <label className="block text-sm text-gray-500 font-medium mb-2">Item Type</label>
@@ -112,7 +112,7 @@ export default function SearchPage() {
                 className={`flex-1 py-2 text-sm font-medium rounded-md transition-all cursor-pointer hover:scale-105 duration-300 ${
                   filterType === type 
                     ? (type === 'All' ? 'bg-gradient-brand text-white shadow-sm' : type === 'Lost' ? 'bg-blue-600 text-white shadow-sm' : 'bg-green-600 text-white shadow-sm')
-                    : 'text-gray-600 hover:text-gray-900'
+                    : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:text-white'
                 }`}
               >
                 {type}
@@ -126,7 +126,7 @@ export default function SearchPage() {
           <select 
             value={categoryFilter}
             onChange={(e) => setCategoryFilter(e.target.value)}
-            className="w-full bg-white border border-gray-300 text-gray-700 py-2.5 px-4 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 cursor-pointer transition-all duration-300"
+            className="w-full bg-white dark:bg-gray-800 border border-gray-300 text-gray-700 dark:text-gray-300 py-2.5 px-4 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 cursor-pointer transition-all duration-300"
           >
             <option>All Categories</option>
             <option>Electronics</option>
@@ -139,7 +139,7 @@ export default function SearchPage() {
       </div>
 
       <div className="mb-6">
-        <h2 className="text-gray-600">Showing <span className="font-bold text-gray-900">{filteredItems.length}</span> items</h2>
+        <h2 className="text-gray-600 dark:text-gray-400">Showing <span className="font-bold text-gray-900 dark:text-white">{filteredItems.length}</span> items</h2>
       </div>
 
       {/* Grid */}

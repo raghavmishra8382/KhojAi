@@ -15,6 +15,20 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  avatarUrl: {
+    type: String,
+    default: '',
+  },
+  preferences: {
+    emailNotifications: {
+      type: Boolean,
+      default: true,
+    },
+    darkMode: {
+      type: Boolean,
+      default: false,
+    }
+  },
   resetPasswordToken: String,
   resetPasswordExpire: Date
 }, { timestamps: true });

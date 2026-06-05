@@ -45,6 +45,7 @@ const AppContext = createContext();
 export const AppProvider = ({ children }) => {
   const [state, dispatch] = useReducer(appReducer, initialState);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [isHelpWidgetOpen, setIsHelpWidgetOpen] = useState(false);
 
   // Auto-login (Persistent State)
   useEffect(() => {
@@ -69,6 +70,15 @@ export const AppProvider = ({ children }) => {
     checkLoggedIn();
   }, []);
 
+  // Handle Dark Mode toggle
+  useEffect(() => {
+    if (state.user?.preferences?.darkMode) {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
+  }, [state.user?.preferences?.darkMode]);
+
   // Helper actions
   const login = (userData) => {
     dispatch({ type: actionTypes.SET_USER, payload: userData });
@@ -84,7 +94,15 @@ export const AppProvider = ({ children }) => {
   };
 
   return (
-    <AppContext.Provider value={{ state, dispatch, login, logout, isSidebarOpen, toggleSidebar }}>
+    <AppContext.Provider value={{ state, dispatch,      // Global UI State
+      isSidebarOpen,
+      setIsSidebarOpen,
+      isHelpWidgetOpen,
+      setIsHelpWidgetOpen,
+      login, 
+      logout, 
+      toggleSidebar 
+    }}>
       {children}
     </AppContext.Provider>
   );

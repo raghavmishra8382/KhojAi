@@ -129,13 +129,13 @@ export default function AIMatchResultsPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50/50 pb-20">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900/50 pb-20">
       {/* Header Banner */}
-      <div className="bg-white border-b border-gray-200">
+      <div className="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-600">
         <div className="max-w-6xl mx-auto px-4 py-6">
           <button 
             onClick={() => navigate(-1)} 
-            className="flex items-center gap-2 text-gray-500 hover:text-gray-900 mb-6 font-medium cursor-pointer hover:scale-105 transition-all duration-300 w-max"
+            className="flex items-center gap-2 text-gray-500 hover:text-gray-900 dark:text-white mb-6 font-medium cursor-pointer hover:scale-105 transition-all duration-300 w-max"
           >
             <ArrowLeft size={20} />
             Back to Item Details
@@ -148,20 +148,20 @@ export default function AIMatchResultsPage() {
                   <Activity size={14} /> AI Analysis Complete
                 </span>
               </div>
-              <h1 className="text-3xl font-bold text-gray-900">
+              <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
                 Your Lost Item Matches <span className="text-indigo-600">{matches.length} Found Items</span>
               </h1>
               <p className="text-gray-500 mt-2 flex items-center gap-2">
-                Tracking ID: <span className="font-mono text-gray-700 bg-gray-100 px-2 py-0.5 rounded">{lostItem.id}</span>
+                Tracking ID: <span className="font-mono text-gray-700 dark:text-gray-300 bg-gray-100 px-2 py-0.5 rounded">{lostItem.id}</span>
               </p>
             </div>
             
             {/* Lost Item Summary */}
-            <div className="flex items-center gap-4 bg-gray-50 p-3 rounded-xl border border-gray-100 w-full md:w-auto">
+            <div className="flex items-center gap-4 bg-gray-50 dark:bg-gray-900 p-3 rounded-xl border border-gray-100 dark:border-gray-700 w-full md:w-auto">
               <img src={lostItem.image} alt="Lost Item" className="w-16 h-16 rounded-lg object-cover shadow-sm" />
               <div>
                 <p className="text-xs text-gray-500 font-medium uppercase tracking-wide">Original Item</p>
-                <p className="font-semibold text-gray-900">{lostItem.title}</p>
+                <p className="font-semibold text-gray-900 dark:text-white">{lostItem.title}</p>
                 <div className="flex items-center gap-3 text-xs text-gray-500 mt-1">
                   <span className="flex items-center gap-1"><Calendar size={12}/> {lostItem.date}</span>
                   <span className="flex items-center gap-1"><MapPin size={12}/> {lostItem.location ? lostItem.location.split(',')[0] : 'Unknown location'}</span>
@@ -180,7 +180,7 @@ export default function AIMatchResultsPage() {
             <h3 className="text-sm font-bold text-gray-400 uppercase tracking-wider mb-4 px-1">Potential Matches</h3>
             
             {matches.length === 0 ? (
-              <div className="text-center py-10 px-4 bg-white rounded-2xl border border-gray-100 shadow-sm relative overflow-hidden">
+              <div className="text-center py-10 px-4 bg-white dark:bg-gray-800 rounded-2xl border border-gray-100 dark:border-gray-700 shadow-sm relative overflow-hidden">
                 <div className="absolute inset-0 bg-gradient-to-b from-cyan-50/50 to-transparent"></div>
                 <div className="relative z-10 flex flex-col items-center">
                   <div className="w-16 h-16 bg-cyan-50 text-cyan-500 rounded-full flex items-center justify-center mb-4 shadow-inner relative">
@@ -188,7 +188,7 @@ export default function AIMatchResultsPage() {
                     <span className="absolute top-0 right-0 w-3 h-3 bg-cyan-400 rounded-full animate-ping"></span>
                     <span className="absolute top-0 right-0 w-3 h-3 bg-cyan-400 rounded-full"></span>
                   </div>
-                  <h3 className="text-sm font-bold text-gray-900 mb-1">AI Monitoring Active</h3>
+                  <h3 className="text-sm font-bold text-gray-900 dark:text-white mb-1">AI Monitoring Active</h3>
                   <p className="text-xs text-gray-500 text-center leading-relaxed">We're continuously scanning new reports.<br/>No matches found yet.</p>
                 </div>
               </div>
@@ -203,8 +203,8 @@ export default function AIMatchResultsPage() {
                 onClick={() => setSelectedMatchIndex(idx)}
                 className={`w-full text-left p-4 rounded-2xl border-2 transition-all duration-300 relative overflow-hidden group ${
                   selectedMatchIndex === idx 
-                    ? 'border-cyan-500 bg-white shadow-[0_8px_30px_rgba(6,182,212,0.15)]' 
-                    : 'border-transparent bg-white shadow-sm hover:border-gray-200 hover:shadow-md text-gray-500 hover:text-gray-900'
+                    ? 'border-cyan-500 bg-white dark:bg-gray-800 shadow-[0_8px_30px_rgba(6,182,212,0.15)]' 
+                    : 'border-transparent bg-white dark:bg-gray-800 shadow-sm hover:border-gray-200 dark:border-gray-600 hover:shadow-md text-gray-500 hover:text-gray-900 dark:text-white'
                 }`}
               >
                 {selectedMatchIndex === idx && (
@@ -216,15 +216,15 @@ export default function AIMatchResultsPage() {
                 
                 <div className="flex items-center gap-4 relative z-10">
                   <div className="relative">
-                    <img src={match.image} alt={match.title} className="w-14 h-14 rounded-full object-cover border-2 border-gray-100" />
-                    <div className={`absolute -bottom-1 -right-1 w-7 h-7 rounded-full flex items-center justify-center text-[10px] font-bold text-white shadow-lg border-2 border-white ${
+                    <img src={match.image} alt={match.title} className="w-14 h-14 rounded-full object-cover border-2 border-gray-100 dark:border-gray-700" />
+                    <div className={`absolute -bottom-1 -right-1 w-7 h-7 rounded-full flex items-center justify-center text-[10px] font-bold text-white shadow-lg border-2 border-white dark:border-gray-800 ${
                       match.confidence > 90 ? 'bg-gradient-to-br from-teal-400 to-green-500 shadow-[0_0_10px_rgba(16,185,129,0.5)]' : match.confidence > 70 ? 'bg-gradient-to-br from-yellow-400 to-orange-500 shadow-[0_0_10px_rgba(245,158,11,0.5)]' : 'bg-gradient-to-br from-red-400 to-rose-500'
                     }`}>
                       {match.confidence}%
                     </div>
                   </div>
                   <div className="flex-1 min-w-0">
-                    <h4 className={`font-bold truncate ${selectedMatchIndex === idx ? 'text-gray-900' : ''}`}>
+                    <h4 className={`font-bold truncate ${selectedMatchIndex === idx ? 'text-gray-900 dark:text-white' : ''}`}>
                       {match.title}
                     </h4>
                     <p className="text-xs text-gray-500 flex items-center gap-1 mt-1 truncate">
@@ -246,7 +246,7 @@ export default function AIMatchResultsPage() {
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -20 }}
                 transition={{ duration: 0.3 }}
-                className="bg-white rounded-3xl shadow-xl shadow-gray-200/50 border border-gray-100 overflow-hidden"
+                className="bg-white dark:bg-gray-800 rounded-3xl shadow-xl shadow-gray-200/50 border border-gray-100 dark:border-gray-700 overflow-hidden"
               >
                 {!selectedMatch ? (
                   <div className="p-12 text-center text-gray-500">
@@ -256,16 +256,16 @@ export default function AIMatchResultsPage() {
                 ) : (
                   <>
                     {/* Score Header */}
-                <div className="p-8 border-b border-gray-100 flex flex-col md:flex-row items-center justify-between gap-8 relative overflow-hidden">
+                <div className="p-8 border-b border-gray-100 dark:border-gray-700 flex flex-col md:flex-row items-center justify-between gap-8 relative overflow-hidden">
                   {/* Subtle Background Elements */}
                   <div className="absolute top-0 right-0 w-64 h-64 bg-gradient-to-br from-cyan-50 to-teal-50 rounded-full blur-3xl opacity-50 -translate-y-1/2 translate-x-1/3" />
                   
                   <div className="flex items-center gap-8 relative z-10 w-full md:w-auto">
                     <CircularProgress percentage={selectedMatch.confidence} />
                     <div>
-                      <h2 className="text-2xl font-bold text-gray-900 mb-2">Match Analysis</h2>
+                      <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">Match Analysis</h2>
                       <p className="text-gray-500 max-w-sm">
-                        Our AI semantic matching indicates a <strong className={selectedMatch.confidence > 90 ? 'text-green-600' : 'text-gray-700'}>
+                        Our AI semantic matching indicates a <strong className={selectedMatch.confidence > 90 ? 'text-green-600' : 'text-gray-700 dark:text-gray-300'}>
                           {selectedMatch.confidence > 90 ? 'highly probable' : selectedMatch.confidence > 70 ? 'moderate' : 'low'}
                         </strong> match based on textual similarity of the description, category, and location heuristics.
                       </p>
@@ -283,7 +283,7 @@ export default function AIMatchResultsPage() {
                     ) : (
                       <button 
                         onClick={() => navigate(`/item/${selectedMatch.id}`)}
-                        className="w-full md:w-auto bg-white text-gray-900 px-8 py-3.5 rounded-xl font-bold shadow-sm hover:shadow-md hover:-translate-y-1 flex items-center justify-center gap-2 cursor-pointer active:scale-95 transition-all duration-300 border border-gray-200"
+                        className="w-full md:w-auto bg-white dark:bg-gray-800 text-gray-900 dark:text-white px-8 py-3.5 rounded-xl font-bold shadow-sm hover:shadow-md hover:-translate-y-1 flex items-center justify-center gap-2 cursor-pointer active:scale-95 transition-all duration-300 border border-gray-200 dark:border-gray-600"
                       >
                         View Details <Eye size={18} />
                       </button>
@@ -294,7 +294,7 @@ export default function AIMatchResultsPage() {
                 <div className="p-8 grid grid-cols-1 md:grid-cols-2 gap-10">
                   {/* Attribute Breakdown */}
                   <div>
-                    <h3 className="text-lg font-bold text-gray-900 mb-6 flex items-center gap-2">
+                    <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-6 flex items-center gap-2">
                       Attribute Similarity
                     </h3>
                     <div className="space-y-4">
@@ -304,13 +304,13 @@ export default function AIMatchResultsPage() {
                           initial={{ opacity: 0, x: -20 }}
                           animate={{ opacity: 1, x: 0 }}
                           transition={{ delay: i * 0.15 + 0.3 }}
-                          className="p-4 rounded-2xl bg-white border border-gray-100 shadow-sm relative overflow-hidden group"
+                          className="p-4 rounded-2xl bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 shadow-sm relative overflow-hidden group"
                         >
                           <div className="absolute inset-0 bg-gradient-to-r from-transparent via-cyan-50/30 to-transparent -translate-x-full group-hover:animate-[shimmer_1.5s_infinite]"></div>
                           <div className="flex justify-between items-end mb-2 relative z-10">
                             <div>
                               <p className="text-xs text-gray-400 uppercase tracking-widest font-bold mb-1">{attr.label}</p>
-                              <p className="text-sm font-extrabold text-gray-900">{attr.value}</p>
+                              <p className="text-sm font-extrabold text-gray-900 dark:text-white">{attr.value}</p>
                             </div>
                             <div className="flex flex-col items-end">
                               {attr.match ? (
@@ -336,10 +336,10 @@ export default function AIMatchResultsPage() {
 
                   {/* Image Comparison */}
                   <div>
-                     <h3 className="text-lg font-bold text-gray-900 mb-6">Visual Comparison</h3>
+                     <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-6">Visual Comparison</h3>
                      <div className="space-y-4">
                        {/* Side by side visual */}
-                       <div className="flex gap-2 p-2 bg-gray-100 rounded-3xl border border-gray-200/50 shadow-inner">
+                       <div className="flex gap-2 p-2 bg-gray-100 rounded-3xl border border-gray-200 dark:border-gray-600/50 shadow-inner">
                           <div className="relative flex-1 rounded-2xl overflow-hidden group/img">
                             <img src={lostItem.image} alt="Lost" className="w-full h-48 object-cover group-hover/img:scale-110 transition-transform duration-700" />
                             <div className="absolute inset-0 bg-black/40 opacity-0 group-hover/img:opacity-100 transition-opacity duration-300 flex items-center justify-center text-white font-bold text-sm backdrop-blur-sm">
